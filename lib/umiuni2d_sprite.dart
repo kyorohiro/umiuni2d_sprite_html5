@@ -40,9 +40,11 @@ class GameWidget extends core.GameWidget {
     (this._stage as TinyWebglStage).isTMode = true;
   }
 
-  void start({core.OnStart onStart}) {
+  void start({core.OnStart onStart, bool useAnimationLoop:false}) {
     this.onStart = onStart;
-    stage.start();
+    if(useAnimationLoop) {
+      stage.start();
+    }
     if(onStart != null) {
       onStart(this);
     }

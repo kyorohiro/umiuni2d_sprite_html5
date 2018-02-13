@@ -17,7 +17,6 @@ part 'src/loader.dart';
 part 'src/image.dart';
 part 'src/canvas.dart';
 part 'src/context.dart';
-part 'src/builder.dart';
 
 part 'util/canvas_text.dart';
 

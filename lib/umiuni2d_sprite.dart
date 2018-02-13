@@ -24,6 +24,7 @@ part 'util/canvas_text.dart';
 class GameWidget extends core.GameWidget {
   core.Stage _stage;
   core.Stage get stage => _stage;
+  core.OnStart onStart = null;
 
   GameWidget({
     core.DisplayObject root:null,
@@ -39,8 +40,12 @@ class GameWidget extends core.GameWidget {
     (this._stage as TinyWebglStage).isTMode = true;
   }
 
-  void start() {
+  void start({core.OnStart onStart}) {
+    this.onStart = onStart;
     stage.start();
+    if(onStart != null) {
+      onStart(this);
+    }
   }
 
   void stop() {

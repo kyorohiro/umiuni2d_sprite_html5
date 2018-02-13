@@ -327,7 +327,7 @@
         <entry key="umiuni2d_sprite">
           <value>
             <list>
-              <option value="$USER_HOME$/.pub-cache/git/umiuni2d_sprite-e1beb0aa037c3463450023b11e912ab1d07840f1/lib" />
+              <option value="$PROJECT_DIR$/../umiuni2d_sprite/lib" />
             </list>
           </value>
         </entry>
@@ -369,7 +369,6 @@
       </option>
     </properties>
     <CLASSES>
-      <root url="file://$USER_HOME$/.pub-cache/git/umiuni2d_sprite-e1beb0aa037c3463450023b11e912ab1d07840f1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/analyzer-0.30.0+4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/args-1.3.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/async-1.13.3/lib" />
@@ -421,6 +420,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/watcher-0.9.7+6/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/web_socket_channel-1.0.6/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/yaml-2.1.13/lib" />
+      <root url="file://$PROJECT_DIR$/../umiuni2d_sprite/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

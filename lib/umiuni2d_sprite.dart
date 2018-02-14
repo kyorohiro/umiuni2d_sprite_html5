@@ -17,13 +17,13 @@ part 'src/loader.dart';
 part 'src/image.dart';
 part 'src/canvas.dart';
 part 'src/context.dart';
-part 'src/builder.dart';
 
 part 'util/canvas_text.dart';
 
 class GameWidget extends core.GameWidget {
   core.Stage _stage;
   core.Stage get stage => _stage;
+  core.OnLoop onLoop = null;
 
   GameWidget({
     core.DisplayObject root:null,
@@ -39,11 +39,18 @@ class GameWidget extends core.GameWidget {
     (this._stage as TinyWebglStage).isTMode = true;
   }
 
-  void start() {
-    stage.start();
+  Future<GameWidget> start({core.OnStart onStart, core.OnLoop onLoop, bool useAnimationLoop:false}) {
+    this.onLoop = onStart;
+    this.onLoop = onLoop;
+    if(useAnimationLoop) {
+      stage.start();
+    }
+    if(onStart != null) {
+      onStart(this);
+    }
   }
 
-  void stop() {
+  Future<GameWidget> stop() {
     stage.stop();
   }
 

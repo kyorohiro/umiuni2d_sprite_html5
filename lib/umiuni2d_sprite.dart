@@ -23,7 +23,7 @@ part 'util/canvas_text.dart';
 class GameWidget extends core.GameWidget {
   core.Stage _stage;
   core.Stage get stage => _stage;
-  core.OnStart onStart = null;
+  core.OnLoop onLoop = null;
 
   GameWidget({
     core.DisplayObject root:null,
@@ -39,8 +39,9 @@ class GameWidget extends core.GameWidget {
     (this._stage as TinyWebglStage).isTMode = true;
   }
 
-  void start({core.OnStart onStart, bool useAnimationLoop:false}) {
-    this.onStart = onStart;
+  Future<GameWidget> start({core.OnStart onStart, core.OnLoop onLoop, bool useAnimationLoop:false}) {
+    this.onLoop = onStart;
+    this.onLoop = onLoop;
     if(useAnimationLoop) {
       stage.start();
     }
@@ -49,7 +50,7 @@ class GameWidget extends core.GameWidget {
     }
   }
 
-  void stop() {
+  Future<GameWidget> stop() {
     stage.stop();
   }
 

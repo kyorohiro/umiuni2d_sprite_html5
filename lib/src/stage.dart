@@ -19,8 +19,8 @@ class TinyWebglStage extends core.Stage {
   int animeId = 0;
   int paintInterval;
   int tickInterval;
-  core.GameWidget _builder;
-  core.GameWidget get builder => _builder;
+  GameWidget _builder;
+  GameWidget get builder => _builder;
 
   int countKickMv = 0;
   num prevTime = 0;
@@ -279,6 +279,9 @@ class TinyWebglStage extends core.Stage {
 
   @override
   void kick(int timeStamp) {
+    if(this._builder.onLoop != null) {
+      this._builder.onLoop(this._builder);
+    }
     stageBase.kick(timeStamp);
   }
 

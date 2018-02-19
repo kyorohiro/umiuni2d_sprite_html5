@@ -54,9 +54,7 @@ class TinyWebglStage extends core.Stage {
       start(oneshot: true);
     } else if(onshot<3) {
       onshot++;
-
     }
-
   }
 
   void init() {}

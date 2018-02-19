@@ -96,12 +96,17 @@ class TinyWebglCanvas extends core.CanvasRoze {
 
   void flush() {
     if (flVert.length != 0) {
-      drawVertex(flVert, flInde, new core.Color.argb(0xaa, 0xff, 0xaa, 0xaa));
+      drawVertexRaw(flVert, flInde);
     }
     super.flush();
   }
 
-  void drawVertex(List<double> svertex, List<int> index, core.Color color) {
+  void drawVertices(core.Vertices vertices) {
+    Vertices verticesSrc = vertices;
+    drawVertexRaw(verticesSrc.positions, verticesSrc.indices);
+  }
+
+  void drawVertexRaw(List<double> svertex, List<int> index) {
     //
     //
     GL.useProgram(programShape);
@@ -197,4 +202,23 @@ class TinyWebglCanvas extends core.CanvasRoze {
     stencilV++;
   }
 
+}
+
+
+class Vertices extends core.Vertices {
+
+  core.VertexMode mode;
+  List<double> positions;
+  List<double> cCoordinates;
+  List<int> colors;
+  List<int> indices;
+
+  Vertices.list(
+      this.mode,
+      this.positions, {
+        this.cCoordinates,
+        colors,
+        indices,
+      }) :super.list(mode, positions, cCoordinates:cCoordinates, colors:colors, indices:indices){
+  }
 }

@@ -9,6 +9,7 @@ class TinyWebglCanvas extends core.CanvasRoze {
   Program programShape;
 
   //-2.0 / glContext.height
+  int stencilV = 1;
 
   TinyWebglCanvas(TinyWebglContext c, {int numOfCircleElm:16}):super(numOfCircleElm:numOfCircleElm) {
     print("#TinyWebglCanvas ${c.GL}");
@@ -74,6 +75,7 @@ class TinyWebglCanvas extends core.CanvasRoze {
   @override
   void clear() {
     super.clear();
+    stencilV = 1;
     double r = 0.0;
     double g = 0.0;
     double b = 0.0;
@@ -99,11 +101,6 @@ class TinyWebglCanvas extends core.CanvasRoze {
       drawVertexRaw(flVert, flInde);
     }
     super.flush();
-  }
-
-  void drawVertices(core.Vertices vertices) {
-    Vertices verticesSrc = vertices;
-    drawVertexRaw(verticesSrc.positions, verticesSrc.indices);
   }
 
   void drawVertexRaw(List<double> svertex, List<int> index) {

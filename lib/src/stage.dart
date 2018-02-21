@@ -115,7 +115,7 @@ class TinyWebglStage extends core.Stage {
         if (animeIsStart == false || sum_a > paintInterval) {
           new Future(() {
             if(c == null) {
-              c = new TinyWebglCanvas(glContext);
+              c = new TinyWebglCanvas(this.w, this.h, glContext);
             }
             c.clear();
             kickPaint(this, c);

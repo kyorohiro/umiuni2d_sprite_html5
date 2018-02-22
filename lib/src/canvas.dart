@@ -175,7 +175,6 @@ class TinyWebglCanvas extends core.Canvas {
   }
 
   void clipRect(core.Stage stage, core.Rect rect, {Matrix4 m:null}) {
-    /*
     flush();
     GL.colorMask(false, false, false, false);
     GL.depthMask(false);
@@ -183,13 +182,12 @@ class TinyWebglCanvas extends core.Canvas {
     GL.stencilFunc(RenderingContext.ALWAYS, stencilV, 0xff);
 
     //
-
     core.Paint p = new core.Paint();
-    p.color = new core.Color.argb(0xff, 0xff, 0xff, 0xff);
-    drawFillRect(null, rect, p, m:m);
+    p.color = new core.Color.argb(0xff, 0x00, 0x00, 0xff);
+    drawRect(stage, rect, p);
+//    drawFillRect(rect, m:m);
     flush();
     //
-
     // GL.disable(RenderingContext.STENCIL_TEST);
     //
     GL.colorMask(true, true, true, true);
@@ -197,7 +195,7 @@ class TinyWebglCanvas extends core.Canvas {
     GL.stencilOp(RenderingContext.KEEP, RenderingContext.KEEP, RenderingContext.KEEP);
     // todo
     GL.stencilFunc(RenderingContext.LEQUAL, stencilV, 0xff);
-    stencilV++;*/
+    stencilV++;
   }
 
   void drawVertexWithImage(List<double> positions, List<double> cCoordinates, List<int> indices, core.Image img,

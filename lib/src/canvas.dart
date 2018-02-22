@@ -217,10 +217,10 @@ class TinyWebglCanvas extends core.Canvas {
         svertex.add(colors[4 * i + 1]);
         svertex.add(colors[4 * i + 2]);
         svertex.add(colors[4 * i + 3]);
-        svertex.add(-1.0);
+        svertex.add(1.0);
         //
-        texs.add(-1.0);
-        texs.add(-1.0);
+        texs.add(cCoordinates[2*i+0]);
+        texs.add(cCoordinates[2*i+1]);
       }
     } else {
       double dz = 0.001;
@@ -234,10 +234,10 @@ class TinyWebglCanvas extends core.Canvas {
         svertex.add(colors[4 * i + 2]);
         svertex.add(colors[4 * i + 3]);
 
-        svertex.add(-1.0);
+        svertex.add(1.0);
         //
-        texs.add(-1.0);
-        texs.add(-1.0);
+        texs.add(cCoordinates[2*i+0]);
+        texs.add(cCoordinates[2*i+1]);
       }
 
     }

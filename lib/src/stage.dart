@@ -76,7 +76,6 @@ class TinyWebglStage extends core.Stage {
   bool _animeIsOn = false;
   core.Canvas c = null;
   Future _anime() async {
-          print("--a1-");
     _animeIsOn = true;
     try {
       double sum = 0.0;
@@ -135,8 +134,6 @@ class TinyWebglStage extends core.Stage {
       } while (animeIsStart ||onshot>=0);
     } catch (e) {} finally {
       _animeIsOn = false;
-      print("--a-");
-
     }
   }
 

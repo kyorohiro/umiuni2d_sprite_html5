@@ -168,13 +168,13 @@ class TinyWebglCanvas extends core.Canvas {
   }
 
 
-  void clearClip(core.Stage stage) {
+  void clearClip() {
     flush();
     stencilV = 1;
     GL.clearStencil(0);
   }
 
-  void clipRect(core.Stage stage, core.Rect rect, {Matrix4 m:null}) {
+  void clipRect(core.Rect rect, {Matrix4 m:null}) {
     flush();
     GL.colorMask(false, false, false, false);
     GL.depthMask(false);
@@ -184,7 +184,7 @@ class TinyWebglCanvas extends core.Canvas {
     //
     core.Paint p = new core.Paint();
     p.color = new core.Color.argb(0xff, 0x00, 0x00, 0xff);
-    drawRect(stage, rect, p);
+    drawRect(rect, p);
 //    drawFillRect(rect, m:m);
     flush();
     //

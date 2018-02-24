@@ -24,13 +24,14 @@ class GameWidget extends core.GameWidget {
   core.Stage _stage;
   core.Stage get stage => _stage;
   core.OnLoop onLoop = null;
-
+  core.DrawingShell ds;
   GameWidget({
     core.DisplayObject root:null,
     double width:400.0,
     double height:300.0,
     this.assetsRoot:"",
     thisselectors: null}) {
+    ds = new core.DrawingShell(width, height);
     if(root == null) {
       root = new core.GameRoot(width, height);
     }
@@ -39,7 +40,7 @@ class GameWidget extends core.GameWidget {
     (this._stage as TinyWebglStage).isTMode = true;
   }
 
-  Future<GameWidget> start({core.OnStart onStart, core.OnLoop onLoop, bool useAnimationLoop:false}) {
+  Future<GameWidget> start({core.OnStart onStart, core.OnLoop onLoop, bool useAnimationLoop:false}) async {
     this.onLoop = onStart;
     this.onLoop = onLoop;
     if(useAnimationLoop) {
@@ -48,10 +49,12 @@ class GameWidget extends core.GameWidget {
     if(onStart != null) {
       onStart(this);
     }
+    return this;
   }
 
-  Future<GameWidget> stop() {
+  Future<GameWidget> stop() async {
     stage.stop();
+    return this;
   }
 
   void run() {
@@ -107,5 +110,9 @@ class GameWidget extends core.GameWidget {
 
   Future<double> getDisplayDensity() async {
     return window.devicePixelRatio;
+  }
+
+  core.DrawingShell getDrawingShell() {
+    return ds;
   }
 }

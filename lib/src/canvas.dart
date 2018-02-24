@@ -1,6 +1,6 @@
 part of umiuni2d_sprite_html5;
 
-class TinyWebglCanvas extends core.CanvasRoze {
+class TinyWebglCanvas extends core.Canvas {
 
   RenderingContext GL;
   TinyWebglContext glContext;
@@ -9,12 +9,13 @@ class TinyWebglCanvas extends core.CanvasRoze {
   Program programShape;
 
   //-2.0 / glContext.height
+  int stencilV = 1;
+  int maxVertexTextureImageUnits = 3;
 
-  TinyWebglCanvas(TinyWebglContext c, {int numOfCircleElm:16}):super(numOfCircleElm:numOfCircleElm) {
+  TinyWebglCanvas(double w, double h, TinyWebglContext c, {int numOfCircleElm:16}):super(w, h) {
     print("#TinyWebglCanvas ${c.GL}");
     GL = c.GL;
     glContext = c;
-    this.numOfCircleElm = numOfCircleElm;
     init();
     clear();
   }
@@ -74,6 +75,7 @@ class TinyWebglCanvas extends core.CanvasRoze {
   @override
   void clear() {
     super.clear();
+    stencilV = 1;
     double r = 0.0;
     double g = 0.0;
     double b = 0.0;
@@ -95,13 +97,11 @@ class TinyWebglCanvas extends core.CanvasRoze {
   }
 
   void flush() {
-    if (flVert.length != 0) {
-      drawVertex(flVert, flInde, new core.Color.argb(0xaa, 0xff, 0xaa, 0xaa));
-    }
     super.flush();
   }
 
-  void drawVertex(List<double> svertex, List<int> index, core.Color color) {
+  Matrix4 baseMat = new Matrix4.identity();
+  void drawVertexRaw(List<double> svertex, List<int> index, List<double> flTex, core.Image flImg) {
     //
     //
     GL.useProgram(programShape);
@@ -115,6 +115,7 @@ class TinyWebglCanvas extends core.CanvasRoze {
     GL.enableVertexAttribArray(texLocation);
 
     GL.vertexAttribPointer(texLocation, 2, RenderingContext.FLOAT, false, 0, 0);
+
     if (flImg != null) {
       {
         Texture tex = (flImg as TinyWebglImage).getTex(GL);
@@ -163,16 +164,17 @@ class TinyWebglCanvas extends core.CanvasRoze {
       GL.bindTexture(RenderingContext.TEXTURE_2D, null);
     }
     GL.useProgram(null);
+
   }
 
 
-  void clearClip(core.Stage stage) {
+  void clearClip() {
     flush();
     stencilV = 1;
     GL.clearStencil(0);
   }
 
-  void clipRect(core.Stage stage, core.Rect rect, {Matrix4 m:null}) {
+  void clipRect(core.Rect rect, {Matrix4 m:null}) {
     flush();
     GL.colorMask(false, false, false, false);
     GL.depthMask(false);
@@ -180,13 +182,12 @@ class TinyWebglCanvas extends core.CanvasRoze {
     GL.stencilFunc(RenderingContext.ALWAYS, stencilV, 0xff);
 
     //
-
     core.Paint p = new core.Paint();
-    p.color = new core.Color.argb(0xff, 0xff, 0xff, 0xff);
-    drawFillRect(null, rect, p, m:m);
+    p.color = new core.Color.argb(0xff, 0x00, 0x00, 0xff);
+    drawRect(rect, p);
+//    drawFillRect(rect, m:m);
     flush();
     //
-
     // GL.disable(RenderingContext.STENCIL_TEST);
     //
     GL.colorMask(true, true, true, true);
@@ -197,4 +198,110 @@ class TinyWebglCanvas extends core.CanvasRoze {
     stencilV++;
   }
 
+  void drawVertexWithImage(List<double> positions, List<double> cCoordinates, List<int> indices, core.Image img,
+      {List<double> colors, bool hasZ:false}) {
+    List<double> svertex = [];
+    List<int> index = [];
+    int positionSize = (hasZ?3:2);
+    int length = positions.length ~/positionSize;
+    List<double> texs = [];
+    if(hasZ) {
+      for(int i=0;i<length;i++) {
+        svertex.add(positions[3 * i + 0]);
+        svertex.add(positions[3 * i + 1]);
+        svertex.add(positions[3 * i + 2]);
+
+        svertex.add(colors[4 * i + 0]);
+        svertex.add(colors[4 * i + 1]);
+        svertex.add(colors[4 * i + 2]);
+        svertex.add(colors[4 * i + 3]);
+        svertex.add(1.0);
+        //
+        texs.add(cCoordinates[2*i+0]);
+        texs.add(cCoordinates[2*i+1]);
+      }
+    } else {
+      double dz = 0.001;
+      for(int i=0;i<length;i++) {
+        svertex.add(positions[2 * i + 0]);
+        svertex.add(positions[2 * i + 1]);
+        svertex.add(dz+=0.001);
+
+        svertex.add(colors[4 * i + 0]);
+        svertex.add(colors[4 * i + 1]);
+        svertex.add(colors[4 * i + 2]);
+        svertex.add(colors[4 * i + 3]);
+
+        svertex.add(1.0);
+        //
+        texs.add(cCoordinates[2*i+0]);
+        texs.add(cCoordinates[2*i+1]);
+      }
+
+    }
+
+    drawVertexRaw(svertex, indices, texs, img);
+  }
+  void drawVertexWithColor(List<double> positions, List<double> colors, List<int> indices,{bool hasZ:false}) {
+    List<double> svertex = [];
+    List<int> index = [];
+    int positionSize = (hasZ?3:2);
+    int length = positions.length ~/positionSize;
+    List<double> texs = [];
+    if(hasZ) {
+      for(int i=0;i<length;i++) {
+        svertex.add(positions[3 * i + 0]);
+        svertex.add(positions[3 * i + 1]);
+        svertex.add(positions[3 * i + 2]);
+
+        svertex.add(colors[4 * i + 0]);
+        svertex.add(colors[4 * i + 1]);
+        svertex.add(colors[4 * i + 2]);
+        svertex.add(colors[4 * i + 3]);
+        svertex.add(-1.0);
+        //
+        texs.add(-1.0);
+        texs.add(-1.0);
+      }
+    } else {
+      double dz = 0.001;
+      for(int i=0;i<length;i++) {
+        svertex.add(positions[2 * i + 0]);
+        svertex.add(positions[2 * i + 1]);
+        svertex.add(dz+=0.001);
+
+        svertex.add(colors[4 * i + 0]);
+        svertex.add(colors[4 * i + 1]);
+        svertex.add(colors[4 * i + 2]);
+        svertex.add(colors[4 * i + 3]);
+
+        svertex.add(-1.0);
+        //
+        texs.add(-1.0);
+        texs.add(-1.0);
+      }
+
+    }
+
+    drawVertexRaw(svertex, indices, texs, null);
+  }
+}
+
+
+class Vertices extends core.Vertices {
+
+  core.VertexMode mode;
+  List<double> positions;
+  List<double> cCoordinates;
+  List<int> colors;
+  List<int> indices;
+
+  Vertices.list(
+      this.mode,
+      this.positions, {
+        this.cCoordinates,
+        colors,
+        indices,
+      }) :super.list(mode, positions, cCoordinates:cCoordinates, colors:colors, indices:indices){
+  }
 }

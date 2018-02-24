@@ -54,9 +54,7 @@ class TinyWebglStage extends core.Stage {
       start(oneshot: true);
     } else if(onshot<3) {
       onshot++;
-
     }
-
   }
 
   void init() {}
@@ -78,7 +76,6 @@ class TinyWebglStage extends core.Stage {
   bool _animeIsOn = false;
   core.Canvas c = null;
   Future _anime() async {
-          print("--a1-");
     _animeIsOn = true;
     try {
       double sum = 0.0;
@@ -117,7 +114,7 @@ class TinyWebglStage extends core.Stage {
         if (animeIsStart == false || sum_a > paintInterval) {
           new Future(() {
             if(c == null) {
-              c = new TinyWebglCanvas(glContext);
+              c = new TinyWebglCanvas(this.w, this.h, glContext);
             }
             c.clear();
             kickPaint(this, c);
@@ -137,8 +134,6 @@ class TinyWebglStage extends core.Stage {
       } while (animeIsStart ||onshot>=0);
     } catch (e) {} finally {
       _animeIsOn = false;
-      print("--a-");
-
     }
   }
 

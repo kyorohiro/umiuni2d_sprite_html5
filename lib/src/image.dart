@@ -53,3 +53,81 @@ class TinyWebglImage extends core.Image {
     }
   }
 }
+
+/*
+
+
+class ImageShader extends core.ImageShader {
+
+  TinyWebglImage baseImage;
+  ImageShader(core.Image rawImage) {
+    this.baseImage = rawImage;
+  }
+
+  void dispose() {
+    _dispose();
+  }
+
+  int get w => baseImage.w;
+  int get h => baseImage.h;
+
+  Texture _tex = null;
+  RenderingContext cacheGL = null;
+  bool isUpdate = false;
+
+  Texture getTex(RenderingContext GL) {
+    if (cacheGL != null && cacheGL != GL)
+    {
+      dispose();
+    }
+    if (_tex == null) {
+      cacheGL = GL;
+      _tex = GL.createTexture();
+      GL.bindTexture(RenderingContext.TEXTURE_2D, _tex);
+      GL.texImage2D(RenderingContext.TEXTURE_2D, 0,
+          RenderingContext.RGBA, RenderingContext.RGBA, RenderingContext.UNSIGNED_BYTE, this.baseImage.elm);
+      GL.bindTexture(RenderingContext.TEXTURE_2D, null);
+    }
+    if(isUpdate) {
+      isUpdate = false;
+      GL.bindTexture(RenderingContext.TEXTURE_2D, _tex);
+      //GL.pixelStorei(RenderingContext.UNPACK_FLIP_Y_WEBGL, 1);
+      GL.texImage2D(RenderingContext.TEXTURE_2D, 0,
+          RenderingContext.RGBA, RenderingContext.RGBA, RenderingContext.UNSIGNED_BYTE, this.baseImage.elm);
+      GL.bindTexture(RenderingContext.TEXTURE_2D, null);
+    }
+    return _tex;
+  }
+
+  void update() {
+    isUpdate = true;
+  }
+
+  void _dispose() {
+    try {
+      if (_tex != null && cacheGL != null) {
+        cacheGL.deleteTexture(_tex);
+        _tex = null;
+        cacheGL = null;
+      }
+    } catch (e) {
+      print("##ERROR # ${e}");
+    }
+  }
+}
+
+class TinyWebglImage extends core.Image {
+  int get w => elm.width;
+  int get h => elm.height;
+  html.ImageElement elm;//ImageElement elm;
+
+  TinyWebglImage(this.elm) {
+    ;
+  }
+  @override
+  void dispose() {
+    elm = null;
+  }
+}
+
+ */

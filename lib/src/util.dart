@@ -39,7 +39,7 @@ class TinyWebglProgram {
   static Buffer createElementArrayBuffer(RenderingContext context, List data) {
     Buffer ret = context.createBuffer();
     context.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, ret);
-    context.bufferDataTyped(RenderingContext.ELEMENT_ARRAY_BUFFER, new Uint16List.fromList(data), RenderingContext.STATIC_DRAW);
+    context.bufferData(RenderingContext.ELEMENT_ARRAY_BUFFER, new Uint16List.fromList(data), RenderingContext.STATIC_DRAW);
     context.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, null);
     return ret;
   }

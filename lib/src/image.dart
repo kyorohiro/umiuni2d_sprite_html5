@@ -16,12 +16,17 @@ class TinyWebglImage extends core.Image {
     {
       dispose();
     }
-    if (_texture == null) {
+    if (_texture == null)
+    {
       cacheGL = GL;
       _texture = GL.createTexture();
       GL.bindTexture(RenderingContext.TEXTURE_2D, _texture);
       GL.texImage2D(RenderingContext.TEXTURE_2D, 0,
         RenderingContext.RGBA, RenderingContext.RGBA, RenderingContext.UNSIGNED_BYTE, imageElement);
+      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_WRAP_S, RenderingContext.CLAMP_TO_EDGE);
+      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_WRAP_T, RenderingContext.CLAMP_TO_EDGE);
+      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_MIN_FILTER, RenderingContext.NEAREST);
+      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_MAG_FILTER, RenderingContext.NEAREST);
       GL.bindTexture(RenderingContext.TEXTURE_2D, null);
     }
     return _texture;

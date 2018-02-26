@@ -1,53 +1,5 @@
 part of umiuni2d_sprite_html5;
 
-class TinyWebglImage extends core.Image {
-  int get w => imageElement.width;
-  int get h => imageElement.height;
-  ImageElement imageElement;// elm;
-  Texture _texture = null;
-  RenderingContext cacheGL = null;
-
-  TinyWebglImage(this.imageElement) {
-    ;
-  }
-
-  Texture getTex(RenderingContext GL) {
-    if (cacheGL != null && cacheGL != GL)
-    {
-      dispose();
-    }
-    if (_texture == null)
-    {
-      cacheGL = GL;
-      _texture = GL.createTexture();
-      GL.bindTexture(RenderingContext.TEXTURE_2D, _texture);
-      GL.texImage2D(RenderingContext.TEXTURE_2D, 0,
-        RenderingContext.RGBA, RenderingContext.RGBA, RenderingContext.UNSIGNED_BYTE, imageElement);
-      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_WRAP_S, RenderingContext.CLAMP_TO_EDGE);
-      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_WRAP_T, RenderingContext.CLAMP_TO_EDGE);
-      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_MIN_FILTER, RenderingContext.NEAREST);
-      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_MAG_FILTER, RenderingContext.NEAREST);
-      GL.bindTexture(RenderingContext.TEXTURE_2D, null);
-    }
-    return _texture;
-  }
-
-  @override
-  void dispose() {
-    try {
-      if (_texture != null && cacheGL != null) {
-        cacheGL.deleteTexture(_texture);
-        _texture = null;
-        cacheGL = null;
-      }
-    } catch (e) {
-      print("##ERROR # ${e}");
-    }
-  }
-}
-
-/*
-
 
 class ImageShader extends core.ImageShader {
 
@@ -65,35 +17,28 @@ class ImageShader extends core.ImageShader {
 
   Texture _tex = null;
   RenderingContext cacheGL = null;
-  bool isUpdate = false;
 
   Texture getTex(RenderingContext GL) {
     if (cacheGL != null && cacheGL != GL)
     {
       dispose();
     }
-    if (_tex == null) {
+    if (_tex == null)
+    {
       cacheGL = GL;
       _tex = GL.createTexture();
       GL.bindTexture(RenderingContext.TEXTURE_2D, _tex);
       GL.texImage2D(RenderingContext.TEXTURE_2D, 0,
-          RenderingContext.RGBA, RenderingContext.RGBA, RenderingContext.UNSIGNED_BYTE, this.baseImage.elm);
-      GL.bindTexture(RenderingContext.TEXTURE_2D, null);
-    }
-    if(isUpdate) {
-      isUpdate = false;
-      GL.bindTexture(RenderingContext.TEXTURE_2D, _tex);
-      //GL.pixelStorei(RenderingContext.UNPACK_FLIP_Y_WEBGL, 1);
-      GL.texImage2D(RenderingContext.TEXTURE_2D, 0,
-          RenderingContext.RGBA, RenderingContext.RGBA, RenderingContext.UNSIGNED_BYTE, this.baseImage.elm);
+          RenderingContext.RGBA, RenderingContext.RGBA, RenderingContext.UNSIGNED_BYTE, baseImage.elm);
+      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_WRAP_S, RenderingContext.CLAMP_TO_EDGE);
+      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_WRAP_T, RenderingContext.CLAMP_TO_EDGE);
+      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_MIN_FILTER, RenderingContext.NEAREST);
+      GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_MAG_FILTER, RenderingContext.NEAREST);
       GL.bindTexture(RenderingContext.TEXTURE_2D, null);
     }
     return _tex;
   }
 
-  void update() {
-    isUpdate = true;
-  }
 
   void _dispose() {
     try {
@@ -114,12 +59,13 @@ class TinyWebglImage extends core.Image {
   html.ImageElement elm;//ImageElement elm;
 
   TinyWebglImage(this.elm) {
-    ;
   }
+
+  int get hashCode => this.elm.hashCode;
+
   @override
   void dispose() {
     elm = null;
   }
 }
 
- */

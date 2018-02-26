@@ -12,7 +12,7 @@ class TinyWebglCanvas extends core.Canvas {
   int stencilV = 1;
   int maxVertexTextureImageUnits = 3;
 
-  TinyWebglCanvas(double w, double h, TinyWebglContext c, {int numOfCircleElm:16}):super(w, h) {
+  TinyWebglCanvas(double w, double h, TinyWebglContext c, {int numOfCircleElm:16}):super(w, h, false) {
     print("#TinyWebglCanvas ${c.GL}");
     GL = c.GL;
     glContext = c;
@@ -83,9 +83,6 @@ class TinyWebglCanvas extends core.Canvas {
       programShapeImage = TinyWebglProgram.compile(GL, vsImage, fsImage);
       programShapeColor = TinyWebglProgram.compile(GL, vsColor, fsColor);
     }
-    {
-
-    }
   }
 
   @override
@@ -134,8 +131,8 @@ class TinyWebglCanvas extends core.Canvas {
     core.Paint p = new core.Paint();
     p.color = new core.Color.argb(0xff, 0x00, 0x00, 0xff);
     drawRect(rect, p);
-//    drawFillRect(rect, m:m);
     flush();
+
     //
     // GL.disable(RenderingContext.STENCIL_TEST);
     //
@@ -147,44 +144,20 @@ class TinyWebglCanvas extends core.Canvas {
     stencilV++;
   }
 
-  void drawVertexWithImage(List<double> positions, List<double> cCoordinates, List<int> indices, core.Image img,
-      {List<double> colors, bool hasZ:false}) {
-    List<double> svertex = [];
+  core.ImageShader createImageShader(core.Image image) {
+    return new ImageShader(image);
+  }
 
-    int positionSize = (hasZ?3:2);
-    int length = positions.length ~/positionSize;
-    List<double> texs = [];
-    if(hasZ) {
-      for(int i=0;i<length;i++) {
-        svertex.add(positions[3 * i + 0]);
-        svertex.add(positions[3 * i + 1]);
-        svertex.add(positions[3 * i + 2]);
 
-        svertex.add(colors[4 * i + 0]);
-        svertex.add(colors[4 * i + 1]);
-        svertex.add(colors[4 * i + 2]);
-        svertex.add(colors[4 * i + 3]);
-        //
-        texs.add(cCoordinates[2*i+0]);
-        texs.add(cCoordinates[2*i+1]);
-      }
-    } else {
-      double dz = 0.001;
-      for(int i=0;i<length;i++) {
-        svertex.add(positions[2 * i + 0]);
-        svertex.add(positions[2 * i + 1]);
-        svertex.add(dz+=0.001);
+  core.Vertices createVertices(List<double> positions, List<double> colors, List<int> indices, {List<double> cCoordinates}) {
+    return new Vertices(positions, colors, indices, cCoordinates: cCoordinates);
+  }
 
-        svertex.add(colors[4 * i + 0]);
-        svertex.add(colors[4 * i + 1]);
-        svertex.add(colors[4 * i + 2]);
-        svertex.add(colors[4 * i + 3]);
-        //
-        texs.add(cCoordinates[2*i+0]);
-        texs.add(cCoordinates[2*i+1]);
-      }
 
-    }
+  void drawVertexWithImage(core.Vertices verties, core.ImageShader imageShader) {
+    List<double> svertex = (verties as Vertices).svertex;
+    List<double> texs = (verties as Vertices).texs;
+    List<int> indices = (verties as Vertices).indices;
 
     {
       //
@@ -209,9 +182,8 @@ class TinyWebglCanvas extends core.Canvas {
 
       {
         // tex
-        Texture tex = (img as TinyWebglImage).getTex(GL);
+        Texture tex = (imageShader as ImageShader).getTex(GL);
         GL.bindTexture(RenderingContext.TEXTURE_2D, tex);
-
       }
 
       //
@@ -253,34 +225,9 @@ class TinyWebglCanvas extends core.Canvas {
     }
   }
 
-  void drawVertexWithColor(List<double> positions, List<double> colors, List<int> indices,{bool hasZ:false}) {
-    List<double> svertex = [];
-    int positionSize = (hasZ?3:2);
-    int length = positions.length ~/positionSize;
-    if(hasZ) {
-      for(int i=0;i<length;i++) {
-        svertex.add(positions[3 * i + 0]);
-        svertex.add(positions[3 * i + 1]);
-        svertex.add(positions[3 * i + 2]);
-
-        svertex.add(colors[4 * i + 0]);
-        svertex.add(colors[4 * i + 1]);
-        svertex.add(colors[4 * i + 2]);
-        svertex.add(colors[4 * i + 3]);
-      }
-    } else {
-      double dz = 0.001;
-      for(int i=0;i<length;i++) {
-        svertex.add(positions[2 * i + 0]);
-        svertex.add(positions[2 * i + 1]);
-        svertex.add(dz+=0.001);
-
-        svertex.add(colors[4 * i + 0]);
-        svertex.add(colors[4 * i + 1]);
-        svertex.add(colors[4 * i + 2]);
-        svertex.add(colors[4 * i + 3]);
-      }
-    }
+  void drawVertexWithColor(core.Vertices verties, {bool hasZ:false}) {
+    List<double> svertex = (verties as Vertices).svertex;
+    List<int> indices = (verties as Vertices).indices;
 
     {
       Program program = programShapeColor;
@@ -328,3 +275,30 @@ class TinyWebglCanvas extends core.Canvas {
   }
 }
 
+class Vertices extends core.Vertices {
+  List<double> svertex = [];
+  List<double> texs = [];
+  List<int> indices = [];
+  bool hasTex;
+  Vertices(List<double> positions, List<double> colors, List<int> indices, {List<double> cCoordinates}) {
+    int positionSize = 2;
+    int length = positions.length ~/ positionSize;
+    hasTex = (cCoordinates != null);
+    double dz = 0.001;
+    for (int i = 0; i < length; i++) {
+      this.svertex.add(positions[2 * i + 0]);
+      this.svertex.add(positions[2 * i + 1]);
+      this.svertex.add(dz += 0.001);
+
+      this.svertex.add(colors[4 * i + 0]);
+      this.svertex.add(colors[4 * i + 1]);
+      this.svertex.add(colors[4 * i + 2]);
+      this.svertex.add(colors[4 * i + 3]);
+      if(cCoordinates != null) {
+        this.texs.add(cCoordinates[2 * i + 0]);
+        this.texs.add(cCoordinates[2 * i + 1]);
+      }
+    }
+    this.indices.addAll(indices);
+  }
+}

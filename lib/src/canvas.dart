@@ -121,16 +121,43 @@ class TinyWebglCanvas extends core.Canvas {
   }
 
   void clipRect(core.Rect rect, {Matrix4 m:null}) {
+    if(m == null) {
+      m = getMatrix();
+    }
+    ds.currentMatrix = m;
+    m = ds.calcMat();
+
+    Vector3 v1 = new Vector3(rect.x, rect.y, 0.0);
+    Vector3 v2 = new Vector3(rect.x, rect.y + rect.h, 0.0);
+    Vector3 v3 = new Vector3(rect.x + rect.w, rect.y + rect.h, 0.0);
+    Vector3 v4 = new Vector3(rect.x + rect.w, rect.y, 0.0);
+    v1 = m * v1;
+    v2 = m * v2;
+    v3 = m * v3;
+    v4 = m * v4;
+//    canvas.clipPath(path);
+    clipVertex(new Vertices(
+        <double> [v1.x, v1.y,v2.x, v2.y, v3.x, v3.y,v4.x, v4.y],
+        <int>[0,1,2, 0,2,3],colors: [
+          1.0, 1.0, 1.0, 1.0,
+          1.0, 1.0, 1.0, 1.0,
+          1.0, 1.0, 1.0, 1.0,
+          1.0, 1.0, 1.0, 1.0]),rect);
+  }
+
+  void clipVertex(core.Vertices vertices,core.Rect rect) {
     flush();
+
     GL.colorMask(false, false, false, false);
     GL.depthMask(false);
     GL.stencilOp(RenderingContext.KEEP, RenderingContext.REPLACE, RenderingContext.REPLACE);
     GL.stencilFunc(RenderingContext.ALWAYS, stencilV, 0xff);
 
     //
-    core.Paint p = new core.Paint();
-    p.color = new core.Color.argb(0xff, 0x00, 0x00, 0xff);
-    drawRect(rect, p);
+    drawVertexWithColor(vertices);
+    // core.Paint p = new core.Paint();
+    // p.color = new core.Color.argb(0xff, 0x00, 0x00, 0xff);
+    // drawRect(rect, p);
     flush();
 
     //
@@ -142,15 +169,15 @@ class TinyWebglCanvas extends core.Canvas {
     // todo
     GL.stencilFunc(RenderingContext.LEQUAL, stencilV, 0xff);
     stencilV++;
-  }
 
+  }
   core.ImageShader createImageShader(core.Image image) {
     return new ImageShader(image);
   }
 
 
   core.Vertices createVertices(List<double> positions, List<double> colors, List<int> indices, {List<double> cCoordinates}) {
-    return new Vertices(positions, colors, indices, cCoordinates: cCoordinates);
+    return new Vertices(positions, indices, colors:colors, cCoordinates: cCoordinates);
   }
 
 
@@ -280,7 +307,7 @@ class Vertices extends core.Vertices {
   List<double> texs = [];
   List<int> indices = [];
   bool hasTex;
-  Vertices(List<double> positions, List<double> colors, List<int> indices, {List<double> cCoordinates}) {
+  Vertices(List<double> positions, List<int> indices, { List<double> colors, List<double> cCoordinates}) {
     int positionSize = 2;
     int length = positions.length ~/ positionSize;
     hasTex = (cCoordinates != null);
@@ -289,11 +316,17 @@ class Vertices extends core.Vertices {
       this.svertex.add(positions[2 * i + 0]);
       this.svertex.add(positions[2 * i + 1]);
       this.svertex.add(dz += 0.001);
-
-      this.svertex.add(colors[4 * i + 0]);
-      this.svertex.add(colors[4 * i + 1]);
-      this.svertex.add(colors[4 * i + 2]);
-      this.svertex.add(colors[4 * i + 3]);
+      if(colors == null) {
+        this.svertex.add(1.0);
+        this.svertex.add(1.0);
+        this.svertex.add(1.0);
+        this.svertex.add(1.0);
+      } else {
+        this.svertex.add(colors[4 * i + 0]);
+        this.svertex.add(colors[4 * i + 1]);
+        this.svertex.add(colors[4 * i + 2]);
+        this.svertex.add(colors[4 * i + 3]);
+      }
       if(cCoordinates != null) {
         this.texs.add(cCoordinates[2 * i + 0]);
         this.texs.add(cCoordinates[2 * i + 1]);

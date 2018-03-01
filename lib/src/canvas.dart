@@ -6,13 +6,13 @@ class TinyWebglCanvas extends core.Canvas {
   TinyWebglContext glContext;
   double get contextWidht => glContext.widht;
   double get contextHeight => glContext.height;
-  Program programShape;
-
+  Program programShapeImage;
+  Program programShapeColor;
   //-2.0 / glContext.height
   int stencilV = 1;
   int maxVertexTextureImageUnits = 3;
 
-  TinyWebglCanvas(double w, double h, TinyWebglContext c, {int numOfCircleElm:16}):super(w, h) {
+  TinyWebglCanvas(double w, double h, TinyWebglContext c, {int numOfCircleElm:16}):super(w, h, false) {
     print("#TinyWebglCanvas ${c.GL}");
     GL = c.GL;
     glContext = c;
@@ -28,47 +28,60 @@ class TinyWebglCanvas extends core.Canvas {
     print("#[B] ALIASED_POINT_SIZE_RANGE       # ${GL.getParameter(RenderingContext.ALIASED_POINT_SIZE_RANGE)}");
     print("#[B] ALIASED_POINT_SIZE_RANGE       # ${GL.getParameter(RenderingContext.ALIASED_POINT_SIZE_RANGE)}");
     {
-      String vs = [
+      //
+      // Image
+      //
+      String vsImage = [
         "attribute vec3 vp;",
         "attribute vec4 color;",
-        "attribute float useTex;",
-        "varying float v_useTex;",
         "attribute vec2 a_tex;",
         "varying vec2 v_tex;",
         "uniform mat4 u_mat;",
         "varying vec4 vColor;",
         "",
         "void main() {",
-        "  v_useTex = useTex;",
         "  gl_Position = u_mat*vec4(vp.x,vp.y,vp.z,1.0);",
-        "  if(useTex < 0.0){",
-        "    vColor = color;",
-        "  }",
-        "  else {",
-        "    vColor = color;",
-        "    v_tex = a_tex;",
-        "  }",
+        "  vColor = color;",
+        "  v_tex = a_tex;",
         "  gl_PointSize = 1.0;//u_point_size;",
         "",
         "}"
       ].join("\n");
-      String fs = [
-        "precision mediump float;",
-        "varying vec2 v_tex;",
+      String fsImage = [
+         "precision mediump float;",
+         "varying vec2 v_tex;",
          "varying vec4 vColor;",
-         "varying float v_useTex;",
          "uniform sampler2D u_image;",
          "void main() {",
-         "  if(v_useTex < 0.0){",
-         "    gl_FragColor = vColor;", "  }",
-         "  else {",
-         "    gl_FragColor = vColor * texture2D(u_image, v_tex);",
-         "  }",
+         "  gl_FragColor = vColor * texture2D(u_image, v_tex);",
          "}"].join("\n");
-      programShape = TinyWebglProgram.compile(GL, vs, fs);
-    }
-    {
 
+
+      //
+      // Color
+      //
+      String vsColor = [
+        "attribute vec3 vp;",
+        "attribute vec4 color;",
+        "uniform mat4 u_mat;",
+        "varying vec4 vColor;",
+        "",
+        "void main() {",
+        "  gl_Position = u_mat*vec4(vp.x,vp.y,vp.z,1.0);",
+        "    vColor = color;",
+        "  gl_PointSize = 1.0;//u_point_size;",
+        "",
+        "}"
+      ].join("\n");
+      String fsColor = [
+        "precision mediump float;",
+        "varying vec2 v_tex;",
+        "varying vec4 vColor;",
+        "void main() {",
+        "    gl_FragColor = vColor;",
+        "}"].join("\n");
+      programShapeImage = TinyWebglProgram.compile(GL, vsImage, fsImage);
+      programShapeColor = TinyWebglProgram.compile(GL, vsColor, fsColor);
     }
   }
 
@@ -101,92 +114,29 @@ class TinyWebglCanvas extends core.Canvas {
   }
 
   Matrix4 baseMat = new Matrix4.identity();
-  void drawVertexRaw(List<double> svertex, List<int> index, List<double> flTex, core.Image flImg) {
-    //
-    //
-    GL.useProgram(programShape);
-    int texLocation = 0;
-
-    texLocation = GL.getAttribLocation(programShape, "a_tex");
-    Buffer texBuffer = GL.createBuffer();
-    GL.bindBuffer(RenderingContext.ARRAY_BUFFER, texBuffer);
-
-    GL.bufferData(RenderingContext.ARRAY_BUFFER, new Float32List.fromList(flTex), RenderingContext.STATIC_DRAW);
-    GL.enableVertexAttribArray(texLocation);
-
-    GL.vertexAttribPointer(texLocation, 2, RenderingContext.FLOAT, false, 0, 0);
-
-    if (flImg != null) {
-      {
-        Texture tex = (flImg as TinyWebglImage).getTex(GL);
-        GL.bindTexture(RenderingContext.TEXTURE_2D, tex);
-
-        GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_WRAP_S, RenderingContext.CLAMP_TO_EDGE);
-        GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_WRAP_T, RenderingContext.CLAMP_TO_EDGE);
-        GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_MIN_FILTER, RenderingContext.NEAREST);
-        GL.texParameteri(RenderingContext.TEXTURE_2D, RenderingContext.TEXTURE_MAG_FILTER, RenderingContext.NEAREST);
-      }
-    }
-    //
-    // vertex
-    Buffer rectBuffer = TinyWebglProgram.createArrayBuffer(GL, svertex);
-    GL.bindBuffer(RenderingContext.ARRAY_BUFFER, rectBuffer);
-
-    Buffer rectIndexBuffer = TinyWebglProgram.createElementArrayBuffer(GL, index);
-    GL.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, rectIndexBuffer);
-
-    //
-
-    //
-    // draw
-    int locationAttributeUseTex;
-    {
-      TinyWebglProgram.setUniformMat4(GL, programShape, "u_mat", baseMat);
-      int colorAttribLocation = GL.getAttribLocation(programShape, "color");
-      int locationVertexPosition = GL.getAttribLocation(programShape, "vp");
-      locationAttributeUseTex = GL.getAttribLocation(programShape, "useTex");
-
-      GL.vertexAttribPointer(locationVertexPosition, 3, RenderingContext.FLOAT, false, 4 * 8, 0);
-      GL.vertexAttribPointer(colorAttribLocation, 4, RenderingContext.FLOAT, false, 4 * 8, 4 * 3);
-      GL.vertexAttribPointer(locationAttributeUseTex, 1, RenderingContext.FLOAT, false, 4 * 8, 4 * 7);
-      GL.enableVertexAttribArray(locationVertexPosition);
-      GL.enableVertexAttribArray(colorAttribLocation);
-      GL.enableVertexAttribArray(locationAttributeUseTex);
-      GL.drawElements(
-          RenderingContext.TRIANGLES,
-          //RenderingContext.LINE_STRIP,
-          index.length, //svertex.length ~/ 3,
-          RenderingContext.UNSIGNED_SHORT,
-          0);
-    }
-    if (texLocation != 0) {
-      GL.disableVertexAttribArray(texLocation);
-      GL.bindTexture(RenderingContext.TEXTURE_2D, null);
-    }
-    GL.useProgram(null);
-
-  }
-
-
   void clearClip() {
     flush();
     stencilV = 1;
     GL.clearStencil(0);
   }
 
-  void clipRect(core.Rect rect, {Matrix4 m:null}) {
+
+
+  void clipVertex(core.Vertices vertices) {
     flush();
+
     GL.colorMask(false, false, false, false);
     GL.depthMask(false);
     GL.stencilOp(RenderingContext.KEEP, RenderingContext.REPLACE, RenderingContext.REPLACE);
     GL.stencilFunc(RenderingContext.ALWAYS, stencilV, 0xff);
 
     //
-    core.Paint p = new core.Paint();
-    p.color = new core.Color.argb(0xff, 0x00, 0x00, 0xff);
-    drawRect(rect, p);
-//    drawFillRect(rect, m:m);
+    drawVertexWithColor(vertices);
+    // core.Paint p = new core.Paint();
+    // p.color = new core.Color.argb(0xff, 0x00, 0x00, 0xff);
+    // drawRect(rect, p);
     flush();
+
     //
     // GL.disable(RenderingContext.STENCIL_TEST);
     //
@@ -196,112 +146,169 @@ class TinyWebglCanvas extends core.Canvas {
     // todo
     GL.stencilFunc(RenderingContext.LEQUAL, stencilV, 0xff);
     stencilV++;
+
+  }
+  core.ImageShader createImageShader(core.Image image) {
+    return new ImageShader(image);
   }
 
-  void drawVertexWithImage(List<double> positions, List<double> cCoordinates, List<int> indices, core.Image img,
-      {List<double> colors, bool hasZ:false}) {
-    List<double> svertex = [];
-    List<int> index = [];
-    int positionSize = (hasZ?3:2);
-    int length = positions.length ~/positionSize;
-    List<double> texs = [];
-    if(hasZ) {
-      for(int i=0;i<length;i++) {
-        svertex.add(positions[3 * i + 0]);
-        svertex.add(positions[3 * i + 1]);
-        svertex.add(positions[3 * i + 2]);
 
-        svertex.add(colors[4 * i + 0]);
-        svertex.add(colors[4 * i + 1]);
-        svertex.add(colors[4 * i + 2]);
-        svertex.add(colors[4 * i + 3]);
-        svertex.add(1.0);
-        //
-        texs.add(cCoordinates[2*i+0]);
-        texs.add(cCoordinates[2*i+1]);
-      }
-    } else {
-      double dz = 0.001;
-      for(int i=0;i<length;i++) {
-        svertex.add(positions[2 * i + 0]);
-        svertex.add(positions[2 * i + 1]);
-        svertex.add(dz+=0.001);
-
-        svertex.add(colors[4 * i + 0]);
-        svertex.add(colors[4 * i + 1]);
-        svertex.add(colors[4 * i + 2]);
-        svertex.add(colors[4 * i + 3]);
-
-        svertex.add(1.0);
-        //
-        texs.add(cCoordinates[2*i+0]);
-        texs.add(cCoordinates[2*i+1]);
-      }
-
-    }
-
-    drawVertexRaw(svertex, indices, texs, img);
+  core.Vertices createVertices(List<double> positions, List<double> colors, List<int> indices, {List<double> cCoordinates}) {
+    return new Vertices(positions, indices, colors:colors, cCoordinates: cCoordinates);
   }
-  void drawVertexWithColor(List<double> positions, List<double> colors, List<int> indices,{bool hasZ:false}) {
-    List<double> svertex = [];
-    List<int> index = [];
-    int positionSize = (hasZ?3:2);
-    int length = positions.length ~/positionSize;
-    List<double> texs = [];
-    if(hasZ) {
-      for(int i=0;i<length;i++) {
-        svertex.add(positions[3 * i + 0]);
-        svertex.add(positions[3 * i + 1]);
-        svertex.add(positions[3 * i + 2]);
 
-        svertex.add(colors[4 * i + 0]);
-        svertex.add(colors[4 * i + 1]);
-        svertex.add(colors[4 * i + 2]);
-        svertex.add(colors[4 * i + 3]);
-        svertex.add(-1.0);
-        //
-        texs.add(-1.0);
-        texs.add(-1.0);
+
+  void drawVertexWithImage(core.Vertices verties, core.ImageShader imageShader) {
+    List<double> svertex = (verties as Vertices).svertex;
+    List<double> texs = (verties as Vertices).texs;
+    List<int> indices = (verties as Vertices).indices;
+
+    {
+      //
+      //
+      Program program = programShapeImage;
+      GL.useProgram(null);
+      GL.useProgram(program);
+      int texLocation = 0;
+
+      {
+        // tex
+        texLocation = GL.getAttribLocation(program, "a_tex");
+        Buffer texBuffer = GL.createBuffer();
+        GL.bindBuffer(RenderingContext.ARRAY_BUFFER, texBuffer);
+        GL.bufferData(
+            RenderingContext.ARRAY_BUFFER, new Float32List.fromList(texs),
+            RenderingContext.STATIC_DRAW);
+        GL.enableVertexAttribArray(texLocation);
+        GL.vertexAttribPointer(
+            texLocation, 2, RenderingContext.FLOAT, false, 0, 0);
       }
-    } else {
-      double dz = 0.001;
-      for(int i=0;i<length;i++) {
-        svertex.add(positions[2 * i + 0]);
-        svertex.add(positions[2 * i + 1]);
-        svertex.add(dz+=0.001);
 
-        svertex.add(colors[4 * i + 0]);
-        svertex.add(colors[4 * i + 1]);
-        svertex.add(colors[4 * i + 2]);
-        svertex.add(colors[4 * i + 3]);
-
-        svertex.add(-1.0);
-        //
-        texs.add(-1.0);
-        texs.add(-1.0);
+      {
+        // tex
+        Texture tex = (imageShader as ImageShader).getTex(GL);
+        GL.bindTexture(RenderingContext.TEXTURE_2D, tex);
       }
+
+      //
+      // vertex
+      Buffer rectBuffer = TinyWebglProgram.createArrayBuffer(GL, svertex);
+      GL.bindBuffer(RenderingContext.ARRAY_BUFFER, rectBuffer);
+
+      Buffer rectIndexBuffer = TinyWebglProgram.createElementArrayBuffer(GL, indices);
+      GL.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, rectIndexBuffer);
+
+      //
+
+      //
+      // draw
+      int locationAttributeUseTex;
+      {
+        TinyWebglProgram.setUniformMat4(GL, program, "u_mat", baseMat);
+        int colorAttribLocation = GL.getAttribLocation(program, "color");
+        int locationVertexPosition = GL.getAttribLocation(program, "vp");
+
+
+        GL.vertexAttribPointer(locationVertexPosition, 3, RenderingContext.FLOAT, false, 4 * 7, 0);
+        GL.vertexAttribPointer(colorAttribLocation, 4, RenderingContext.FLOAT, false, 4 * 7, 4 * 3);
+        GL.enableVertexAttribArray(locationVertexPosition);
+        GL.enableVertexAttribArray(colorAttribLocation);
+
+        GL.drawElements(
+            RenderingContext.TRIANGLES,
+            //RenderingContext.LINE_STRIP,
+            indices.length, //svertex.length ~/ 3,
+            RenderingContext.UNSIGNED_SHORT,
+            0);
+      }
+      if (texLocation != 0) {
+        GL.disableVertexAttribArray(texLocation);
+        GL.bindTexture(RenderingContext.TEXTURE_2D, null);
+      }
+      GL.useProgram(null);
+    }
+  }
+
+  void drawVertexWithColor(core.Vertices verties, {bool hasZ:false}) {
+    List<double> svertex = (verties as Vertices).svertex;
+    List<int> indices = (verties as Vertices).indices;
+
+    {
+      Program program = programShapeColor;
+
+      GL.useProgram(null);
+      GL.useProgram(program);
+      int texLocation = 0;
+
+
+      //
+      // vertex
+      //
+      Buffer rectBuffer = TinyWebglProgram.createArrayBuffer(GL, svertex);
+      GL.bindBuffer(RenderingContext.ARRAY_BUFFER, rectBuffer);
+
+      Buffer rectIndexBuffer = TinyWebglProgram.createElementArrayBuffer(GL, indices);
+      GL.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, rectIndexBuffer);
+
+      //
+      // draw
+      //
+      {
+        TinyWebglProgram.setUniformMat4(GL, program, "u_mat", baseMat);
+        int colorAttribLocation = GL.getAttribLocation(program, "color");
+        int locationVertexPosition = GL.getAttribLocation(program, "vp");
+
+        GL.vertexAttribPointer(locationVertexPosition, 3, RenderingContext.FLOAT, false, 4 * 7, 0);
+        GL.vertexAttribPointer(colorAttribLocation, 4, RenderingContext.FLOAT, false, 4 * 7, 4 * 3);
+        GL.enableVertexAttribArray(locationVertexPosition);
+        GL.enableVertexAttribArray(colorAttribLocation);
+
+        GL.drawElements(
+            RenderingContext.TRIANGLES,
+            indices.length,
+            RenderingContext.UNSIGNED_SHORT,
+            0);
+      }
+      if (texLocation != 0) {
+        GL.disableVertexAttribArray(texLocation);
+        GL.bindTexture(RenderingContext.TEXTURE_2D, null);
+      }
+      GL.useProgram(null);
 
     }
-
-    drawVertexRaw(svertex, indices, texs, null);
   }
 }
 
-
 class Vertices extends core.Vertices {
-
-  core.VertexMode mode;
-  List<double> positions;
-  List<double> cCoordinates;
-  List<int> colors;
-  List<int> indices;
-
-  Vertices.list(
-      this.mode,
-      this.positions, {
-        this.cCoordinates,
-        colors,
-        indices,
-      }) :super.list(mode, positions, cCoordinates:cCoordinates, colors:colors, indices:indices){
+  List<double> svertex = [];
+  List<double> texs = [];
+  List<int> indices = [];
+  bool hasTex;
+  Vertices(List<double> positions, List<int> indices, { List<double> colors, List<double> cCoordinates}) {
+    int positionSize = 2;
+    int length = positions.length ~/ positionSize;
+    hasTex = (cCoordinates != null);
+    double dz = 0.001;
+    for (int i = 0; i < length; i++) {
+      this.svertex.add(positions[2 * i + 0]);
+      this.svertex.add(positions[2 * i + 1]);
+      this.svertex.add(dz += 0.001);
+      if(colors == null) {
+        this.svertex.add(1.0);
+        this.svertex.add(1.0);
+        this.svertex.add(1.0);
+        this.svertex.add(1.0);
+      } else {
+        this.svertex.add(colors[4 * i + 0]);
+        this.svertex.add(colors[4 * i + 1]);
+        this.svertex.add(colors[4 * i + 2]);
+        this.svertex.add(colors[4 * i + 3]);
+      }
+      if(cCoordinates != null) {
+        this.texs.add(cCoordinates[2 * i + 0]);
+        this.texs.add(cCoordinates[2 * i + 1]);
+      }
+    }
+    this.indices.addAll(indices);
   }
 }

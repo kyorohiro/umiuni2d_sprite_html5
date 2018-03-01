@@ -268,8 +268,22 @@ class TinyWebglStage extends core.Stage {
   core.DisplayObject get root => stageBase.root;
 
   @override
+  core.DisplayObject get background => stageBase.background;
+
+  @override
+  core.DisplayObject get front => stageBase.front;
+
+  @override
   void set root(core.DisplayObject v) {
     stageBase.root = v;
+  }
+
+  void set background(core.DisplayObject v) {
+    stageBase.background = v;
+  }
+
+  void set front(core.DisplayObject v) {
+    stageBase.front = v;
   }
 
   @override

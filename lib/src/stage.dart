@@ -26,12 +26,11 @@ class TinyWebglStage extends core.Stage {
   num prevTime = 0;
 
   core.StageBase stageBase;
-  TinyWebglStage(this._builder, core.DisplayObject root,
+  TinyWebglStage(this._builder, core.DisplayObject root,core.DisplayObject background, core.DisplayObject front,
       {double width: 400.0, double height: 300.0, String selectors: null, this.tickInterval: 15, this.paintInterval: 40}) {
     print("#TinyWebglStage");
-    stageBase = new core.StageBase(this);
     glContext = new TinyWebglContext(width: width, height: height, selectors: selectors);
-    this.root = root;
+    stageBase = new core.StageBase(this, root, background, front);
     mouseTest();
     touchTtest();
   }
@@ -72,7 +71,6 @@ class TinyWebglStage extends core.Stage {
     }
   }
 
-  bool isTMode = false;
   bool _animeIsOn = false;
   core.Canvas c = null;
   Future _anime() async {

@@ -27,17 +27,17 @@ class GameWidget extends core.GameWidget {
   core.DrawingShell ds;
   GameWidget({
     core.DisplayObject root:null,
+    core.DisplayObject background,
+    core.DisplayObject front,
     double width:400.0,
     double height:300.0,
     this.assetsRoot:"",
-    thisselectors: null}) {
+    this.selectors: null}) {
     ds = new core.DrawingShell(width, height);
     if(root == null) {
       root = new core.GameRoot(width, height);
     }
-
-    this._stage = createStage(root: root);
-    (this._stage as TinyWebglStage).isTMode = true;
+    this._stage = createStage(root: root, background: background, front: front);
   }
 
   Future<GameWidget> start({core.OnStart onStart, core.OnLoop onLoop, bool useAnimationLoop:false}) async {
@@ -70,11 +70,12 @@ class GameWidget extends core.GameWidget {
   String selectors = null;
   double fontPower = 2.0;
 
-  core.Stage createStage({core.DisplayObject root}) {
+  core.Stage createStage({core.DisplayObject root, core.DisplayObject background, core.DisplayObject front}) {
     if(root == null) {
       root = new core.DisplayObject();
     }
-    return new TinyWebglStage(this, root, width:width.toDouble(), height:height.toDouble(), selectors:selectors, tickInterval:tickInterval, paintInterval:paintInterval);
+    return new TinyWebglStage(this, root, background, front, width:width.toDouble(), height:height.toDouble(),
+        selectors:selectors, tickInterval:tickInterval, paintInterval:paintInterval);
   }
 
   Future<core.Image> loadImage(String path) async {

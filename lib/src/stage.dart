@@ -36,7 +36,6 @@ class TinyWebglStage extends core.Stage {
     touchTtest();
   }
 
-  // todo
   void updateSize(double w, double h) {
     glContext.widht = w;
     glContext.height = h;
@@ -60,7 +59,6 @@ class TinyWebglStage extends core.Stage {
   void init() {}
 
   void start({oneshot:false}) {
- //   startable = true;
     if(animeIsStart == true) {
       return;
     }
@@ -109,7 +107,6 @@ class TinyWebglStage extends core.Stage {
         sum_a += interval;
         count++;
         prevTime = currentTime;
-        // TODO
         //markPaintshot();
         if (animeIsStart == false || sum_a > paintInterval) {
           new Future(() {
@@ -317,28 +314,9 @@ class TinyWebglStage extends core.Stage {
     return stageBase.popMatrix();
   }
 
-  @override
   Matrix4 getMatrix() {
     return stageBase.getMatrix();
   }
-
-  @override
-  double get xFromMat => stageBase.xFromMat;
-
-  @override
-  double get yFromMat => stageBase.yFromMat;
-
-  @override
-  double get zFromMat => stageBase.zFromMat;
-
-  @override
-  double get sxFromMat => stageBase.sxFromMat;
-
-  @override
-  double get syFromMat => stageBase.syFromMat;
-
-  @override
-  double get szFromMat => stageBase.szFromMat;
 
   @override
   Vector3 getCurrentPositionOnDisplayObject(double globalX, double globalY) {

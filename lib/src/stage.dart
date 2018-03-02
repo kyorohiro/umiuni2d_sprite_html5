@@ -19,14 +19,14 @@ class TinyWebglStage extends core.Stage {
   int animeId = 0;
   int paintInterval;
   int tickInterval;
-  GameWidget _builder;
-  GameWidget get builder => _builder;
+  GameWidget _context;
+  GameWidget get context => _context;
 
   int countKickMv = 0;
   num prevTime = 0;
 
   core.StageBase stageBase;
-  TinyWebglStage(this._builder, core.DisplayObject root,core.DisplayObject background, core.DisplayObject front,
+  TinyWebglStage(this._context, core.DisplayObject root,core.DisplayObject background, core.DisplayObject front,
       {double width: 400.0, double height: 300.0, String selectors: null, this.tickInterval: 15, this.paintInterval: 40}) {
     print("#TinyWebglStage");
     glContext = new TinyWebglContext(width: width, height: height, selectors: selectors);
@@ -285,8 +285,8 @@ class TinyWebglStage extends core.Stage {
 
   @override
   void kick(int timeStamp) {
-    if(this._builder.onLoop != null) {
-      this._builder.onLoop(this._builder);
+    if(this._context.onLoop != null) {
+      this._context.onLoop(this._context);
     }
     stageBase.kick(timeStamp);
   }

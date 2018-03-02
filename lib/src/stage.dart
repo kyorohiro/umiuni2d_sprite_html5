@@ -31,6 +31,7 @@ class TinyWebglStage extends core.Stage {
     print("#TinyWebglStage");
     glContext = new TinyWebglContext(width: width, height: height, selectors: selectors);
     stageBase = new core.StageBase(this, root, background, front);
+    this.startable = true;
     mouseTest();
     touchTtest();
   }
@@ -59,6 +60,7 @@ class TinyWebglStage extends core.Stage {
   void init() {}
 
   void start({oneshot:false}) {
+ //   startable = true;
     if(animeIsStart == true) {
       return;
     }

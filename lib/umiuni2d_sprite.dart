@@ -23,6 +23,8 @@ part 'util/canvas_text.dart';
 class GameWidget extends core.GameWidget {
   core.Stage _stage;
   core.Stage get stage => _stage;
+  Map<String, Object> objects = {};
+
   core.OnLoop onLoop = null;
   core.DrawingShell ds;
   GameWidget({

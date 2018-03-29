@@ -28,18 +28,18 @@ class TinyWebglProgram {
     return shader;
   }
 
-  static Buffer createArrayBuffer(RenderingContext context, List data) {
+  static Buffer createArrayBuffer(RenderingContext context, Float32List data) {
     Buffer ret = context.createBuffer();
     context.bindBuffer(RenderingContext.ARRAY_BUFFER, ret);
-    context.bufferData(RenderingContext.ARRAY_BUFFER, new Float32List.fromList(data), RenderingContext.STATIC_DRAW);
+    context.bufferData(RenderingContext.ARRAY_BUFFER, data, RenderingContext.STATIC_DRAW);
     context.bindBuffer(RenderingContext.ARRAY_BUFFER, null);
     return ret;
   }
 
-  static Buffer createElementArrayBuffer(RenderingContext context, List data) {
+  static Buffer createElementArrayBuffer(RenderingContext context, Uint16List data) {
     Buffer ret = context.createBuffer();
     context.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, ret);
-    context.bufferData(RenderingContext.ELEMENT_ARRAY_BUFFER, new Uint16List.fromList(data), RenderingContext.STATIC_DRAW);
+    context.bufferData(RenderingContext.ELEMENT_ARRAY_BUFFER, data, RenderingContext.STATIC_DRAW);
     context.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, null);
     return ret;
   }

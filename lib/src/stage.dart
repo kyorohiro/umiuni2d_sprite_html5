@@ -66,7 +66,7 @@ class TinyWebglStage extends core.Stage {
       animeIsStart = true;
     }
     if(_animeIsOn == false) {
-      print("A sanimeIsStart ok");
+      //print("A sanimeIsStart ok");
       _anime();
     }
   }

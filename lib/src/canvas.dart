@@ -32,7 +32,7 @@ class TinyWebglCanvas extends core.Canvas {
       // Image
       //
       String vsImage = [
-        "attribute vec3 vp;",
+        "attribute vec2 vp;",
         "attribute vec4 color;",
         "attribute vec2 a_tex;",
         "varying vec2 v_tex;",
@@ -40,7 +40,7 @@ class TinyWebglCanvas extends core.Canvas {
         "varying vec4 vColor;",
         "",
         "void main() {",
-        "  gl_Position = u_mat*vec4(vp.x,vp.y,vp.z,1.0);",
+        "  gl_Position = u_mat*vec4(vp.x,vp.y,0.0,1.0);",
         "  vColor = color;",
         "  v_tex = a_tex;",
         "  gl_PointSize = 1.0;//u_point_size;",
@@ -61,13 +61,13 @@ class TinyWebglCanvas extends core.Canvas {
       // Color
       //
       String vsColor = [
-        "attribute vec3 vp;",
+        "attribute vec2 vp;",
         "attribute vec4 color;",
         "uniform mat4 u_mat;",
         "varying vec4 vColor;",
         "",
         "void main() {",
-        "  gl_Position = u_mat*vec4(vp.x,vp.y,vp.z,1.0);",
+        "  gl_Position = u_mat*vec4(vp.x,vp.y,0.0,1.0);",
         "    vColor = color;",
         "  gl_PointSize = 1.0;//u_point_size;",
         "",
@@ -159,9 +159,9 @@ class TinyWebglCanvas extends core.Canvas {
 
 
   void drawVertexWithImage(core.Vertices verties, core.ImageShader imageShader) {
-    List<double> svertex = (verties as Vertices).svertex;
-    List<double> texs = (verties as Vertices).texs;
-    List<int> indices = (verties as Vertices).indices;
+    Float32List  svertex = (verties as Vertices).svertex;
+    Float32List  texs = (verties as Vertices).texs;
+    Uint16List indices = (verties as Vertices).indices;
 
     {
       //
@@ -209,8 +209,8 @@ class TinyWebglCanvas extends core.Canvas {
         int locationVertexPosition = GL.getAttribLocation(program, "vp");
 
 
-        GL.vertexAttribPointer(locationVertexPosition, 3, RenderingContext.FLOAT, false, 4 * 7, 0);
-        GL.vertexAttribPointer(colorAttribLocation, 4, RenderingContext.FLOAT, false, 4 * 7, 4 * 3);
+        GL.vertexAttribPointer(locationVertexPosition, 2, RenderingContext.FLOAT, false, 4 * 6, 0);
+        GL.vertexAttribPointer(colorAttribLocation, 4, RenderingContext.FLOAT, false, 4 * 6, 4 * 2);
         GL.enableVertexAttribArray(locationVertexPosition);
         GL.enableVertexAttribArray(colorAttribLocation);
 
@@ -230,8 +230,8 @@ class TinyWebglCanvas extends core.Canvas {
   }
 
   void drawVertexWithColor(core.Vertices verties, {bool hasZ:false}) {
-    List<double> svertex = (verties as Vertices).svertex;
-    List<int> indices = (verties as Vertices).indices;
+    Float32List svertex = (verties as Vertices).svertex;
+    Uint16List indices = (verties as Vertices).indices;
 
     {
       Program program = programShapeColor;
@@ -258,8 +258,8 @@ class TinyWebglCanvas extends core.Canvas {
         int colorAttribLocation = GL.getAttribLocation(program, "color");
         int locationVertexPosition = GL.getAttribLocation(program, "vp");
 
-        GL.vertexAttribPointer(locationVertexPosition, 3, RenderingContext.FLOAT, false, 4 * 7, 0);
-        GL.vertexAttribPointer(colorAttribLocation, 4, RenderingContext.FLOAT, false, 4 * 7, 4 * 3);
+        GL.vertexAttribPointer(locationVertexPosition, 2, RenderingContext.FLOAT, false, 4 * 6, 0);
+        GL.vertexAttribPointer(colorAttribLocation, 4, RenderingContext.FLOAT, false, 4 * 6, 4 * 2);
         GL.enableVertexAttribArray(locationVertexPosition);
         GL.enableVertexAttribArray(colorAttribLocation);
 
@@ -280,35 +280,40 @@ class TinyWebglCanvas extends core.Canvas {
 }
 
 class Vertices extends core.Vertices {
-  List<double> svertex = [];
-  List<double> texs = [];
-  List<int> indices = [];
+  Float32List svertex;
+  Float32List texs;
+  Uint16List indices;
+  //double dz = 0.001;
   bool hasTex;
   Vertices(List<double> positions, List<int> indices, { List<double> colors, List<double> cCoordinates}) {
     int positionSize = 2;
     int length = positions.length ~/ positionSize;
     hasTex = (cCoordinates != null);
-    double dz = 0.001;
+
+    this.svertex = new Float32List(length*(3+4));
+    this.texs = new Float32List(length*2);
+    this.indices = new Uint16List.fromList(indices);
+
+    int s=0;
+    int t=0;
     for (int i = 0; i < length; i++) {
-      this.svertex.add(positions[2 * i + 0]);
-      this.svertex.add(positions[2 * i + 1]);
-      this.svertex.add(dz += 0.001);
+      this.svertex[s++] = positions[2 * i + 0];
+      this.svertex[s++] = positions[2 * i + 1];
       if(colors == null) {
-        this.svertex.add(1.0);
-        this.svertex.add(1.0);
-        this.svertex.add(1.0);
-        this.svertex.add(1.0);
+        this.svertex[s++] =(1.0);
+        this.svertex[s++] =(1.0);
+        this.svertex[s++] =(1.0);
+        this.svertex[s++] =(1.0);
       } else {
-        this.svertex.add(colors[4 * i + 0]);
-        this.svertex.add(colors[4 * i + 1]);
-        this.svertex.add(colors[4 * i + 2]);
-        this.svertex.add(colors[4 * i + 3]);
+        this.svertex[s++] =(colors[4 * i + 0]);
+        this.svertex[s++] =(colors[4 * i + 1]);
+        this.svertex[s++] =(colors[4 * i + 2]);
+        this.svertex[s++] =(colors[4 * i + 3]);
       }
       if(cCoordinates != null) {
-        this.texs.add(cCoordinates[2 * i + 0]);
-        this.texs.add(cCoordinates[2 * i + 1]);
+        this.texs[t++] = (cCoordinates[2 * i + 0]);
+        this.texs[t++] = (cCoordinates[2 * i + 1]);
       }
     }
-    this.indices.addAll(indices);
   }
 }

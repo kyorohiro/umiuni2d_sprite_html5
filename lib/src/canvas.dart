@@ -12,7 +12,8 @@ class TinyWebglCanvas extends core.Canvas {
   int stencilV = 1;
   int maxVertexTextureImageUnits = 3;
 
-  TinyWebglCanvas(double w, double h, TinyWebglContext c, {int numOfCircleElm:16}):super(w, h, false) {
+  TinyWebglCanvas(double w, double h, TinyWebglContext c, {int numOfCircleElm:16}):super(w, h, false
+      , new DrawingShell(w, h)) {
     print("#TinyWebglCanvas ${c.GL}");
     GL = c.GL;
     glContext = c;
@@ -20,7 +21,6 @@ class TinyWebglCanvas extends core.Canvas {
     clear();
   }
 
-  @override
   void init() {
     print("#INIT");
     maxVertexTextureImageUnits = GL.getParameter(RenderingContext.MAX_VERTEX_TEXTURE_IMAGE_UNITS);
@@ -73,6 +73,7 @@ class TinyWebglCanvas extends core.Canvas {
         "",
         "}"
       ].join("\n");
+      
       String fsColor = [
         "precision mediump float;",
         "varying vec2 v_tex;",

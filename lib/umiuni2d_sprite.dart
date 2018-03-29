@@ -10,6 +10,7 @@ import 'dart:html';
 import 'dart:web_gl';
 import 'dart:typed_data';
 import 'dart:convert' as conv;
+import 'dart:math' as math;
 //
 part 'src/stage.dart';
 part 'src/util.dart';
@@ -17,6 +18,7 @@ part 'src/loader.dart';
 part 'src/image.dart';
 part 'src/canvas.dart';
 part 'src/context.dart';
+part 'src/drawingshell.dart';
 
 part 'util/canvas_text.dart';
 
@@ -26,7 +28,6 @@ class GameWidget extends core.GameWidget {
   Map<String, Object> objects = {};
 
   core.OnLoop onLoop = null;
-  core.DrawingShell ds;
   GameWidget({
     core.DisplayObject root:null,
     core.DisplayObject background,
@@ -35,7 +36,7 @@ class GameWidget extends core.GameWidget {
     double height:300.0,
     this.assetsRoot:"",
     this.selectors: null}) {
-    ds = new core.DrawingShell(width, height);
+
     if(root == null) {
       root = new core.GameRoot(width, height);
     }
@@ -115,9 +116,6 @@ class GameWidget extends core.GameWidget {
     return window.devicePixelRatio;
   }
 
-  core.DrawingShell getDrawingShell() {
-    return ds;
-  }
 
   Future<core.ImageShader> createImageShader(core.Image image) async {
     return null;

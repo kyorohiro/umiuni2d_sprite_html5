@@ -11,7 +11,6 @@ class DrawingShell extends core.DrawingShell {
   }
 
   List<double> flVert = [];
-  List<double> flColor = [];
   List<int> flInde = [];
   List<double> flTex = [];
   core.Image flImg = null;
@@ -28,7 +27,8 @@ class DrawingShell extends core.DrawingShell {
     if (flVert.length != 0) {
       {
         if(this.flImg == null) {
-          canvas.drawVertexWithColor(canvas.createVertices(this.flVert, this.flColor, this.flInde));
+          (canvas as TinyWebglCanvas).drawVertexWithColorRaw(
+              new Float32List.fromList(this.flVert), new Uint16List.fromList(this.flInde));
         } else {
           ImageShader s = null;
           if(canvas.ims.containsKey(this.flImg )) {
@@ -37,14 +37,14 @@ class DrawingShell extends core.DrawingShell {
             s = canvas.createImageShader(this.flImg);
             canvas.ims[this.flImg] = s;
           }
-          canvas.drawVertexWithImage(canvas.createVertices(this.flVert, this.flColor, this.flInde, cCoordinates: this.flTex), s);
+          (canvas as TinyWebglCanvas).drawVertexWithImageRaw(
+              new Float32List.fromList(this.flVert),  new Float32List.fromList(this.flTex), new Uint16List.fromList(this.flInde), s);
         }
       }
     }
-    flVert = [];
-    flInde = [];
-    flColor = [];
-    flTex = [];
+    flVert.clear();
+    flInde.clear();
+    flTex.clear();
     flImg = null;
   }
 
@@ -111,30 +111,27 @@ class DrawingShell extends core.DrawingShell {
 
     for (int i = 0; i < _numOfCircleElm; i++) {
       //
-      int bbb = flVert.length ~/ 2;
+      int bbb = flVert.length ~/ vertLen;
 
       //
       s.x = cx;
       s.y = cy;
       s = m * s;
-      flVert.addAll([s.x, s.y]);
-      flColor.addAll([colorR, colorG, colorB, colorA]);
+      flVert.addAll([s.x, s.y,colorR, colorG, colorB, colorA]);
 
       //
       //
       s.x = cx + _circleCache[i*2+0] * a;
       s.y = cy + _circleCache[i*2+1] * b;
       s = m * s;
-      flVert.addAll([s.x, s.y]);
-      flColor.addAll([colorR, colorG, colorB, colorA]);
+      flVert.addAll([s.x, s.y, colorR, colorG, colorB, colorA]);
 
       //
       //
       s.x = cx + _circleCache[i*2+2] * a;
       s.y = cy + _circleCache[i*2+3] * b;
       s = m * s;
-      flVert.addAll([s.x, s.y]);
-      flColor.addAll([colorR, colorG, colorB, colorA]);
+      flVert.addAll([s.x, s.y, colorR, colorG, colorB, colorA]);
       flInde.addAll([bbb + 0, bbb + 1, bbb + 2]);
     }
   }
@@ -276,18 +273,16 @@ class DrawingShell extends core.DrawingShell {
   void _innerDrawFillRect(
       Vector3 ss1, Vector3 ss2, Vector3 ss3, Vector3 ss4,
       double colorR, double colorG, double colorB, double colorA) {
-    int b = flVert.length ~/ 2;
+    int b = flVert.length ~/ vertLen;
     flVert.addAll([
       ss1.x, ss1.y, // 7
+      colorR, colorG, colorB, colorA,
       ss2.x, ss2.y, // 1
+      colorR, colorG, colorB, colorA,
       ss3.x, ss3.y, // 9
+      colorR, colorG, colorB, colorA,
       ss4.x, ss4.y, //3
-    ]);
-    flColor.addAll([
-      colorR, colorG, colorB, colorA, // 7 color
-      colorR, colorG, colorB, colorA, // 1 color
-      colorR, colorG, colorB, colorA, // 9 color
-      colorR, colorG, colorB, colorA, // 3 color
+      colorR, colorG, colorB, colorA,
     ]);
     flInde.addAll([b + 0, b + 1, b + 2, b + 1, b + 3, b + 2]);
   }
@@ -350,7 +345,7 @@ class DrawingShell extends core.DrawingShell {
     Vector3 ss4 = m * new Vector3(ex, ey, 0.0);
 
 
-    int b = flVert.length ~/ 2;
+    int b = flVert.length ~/ vertLen;
 
     double colorR = currentColor.rf;
     double colorG = currentColor.gf;
@@ -366,17 +361,16 @@ class DrawingShell extends core.DrawingShell {
 
     flVert.addAll([
       ss1.x, ss1.y, // 7
+      colorR, colorG, colorB, colorA, // color
       ss2.x, ss2.y, // 1
+      colorR, colorG, colorB, colorA, // color
       ss3.x, ss3.y, // 9
+      colorR, colorG, colorB, colorA, // color
       ss4.x, ss4.y, //3
+      colorR, colorG, colorB, colorA, // color
     ]);
 
-    flColor.addAll([
-      colorR, colorG, colorB, colorA, // color
-      colorR, colorG, colorB, colorA, // color
-      colorR, colorG, colorB, colorA, // color
-      colorR, colorG, colorB, colorA, // color
-    ]);
     flInde.addAll([b + 0, b + 1, b + 2, b + 1, b + 3, b + 2]);
   }
+  static int vertLen = 6;
 }

@@ -178,10 +178,10 @@ class DrawingShell extends core.DrawingShell {
 
     for (int i = 0; i < _numOfCircleElm; i++) {
       //
-      int bbb = flVert.length ~/ vertLen;
       if(flVert.length > FORCE_FLUSH_LEBGTH) {
         flush();
       }
+      int bbb = flVert.length ~/ vertLen;
       //
       s.x = cx;
       s.y = cy;

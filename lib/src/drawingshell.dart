@@ -120,7 +120,8 @@ class DrawingShell extends core.DrawingShell {
     cacheMatrix.setIdentity();
     cacheMatrix.translate(-1.0, 1.0, 0.0);
     cacheMatrix.scale(2.0 / contextWidht, -2.0 / contextHeight, 1.0);
-    cacheMatrix = cacheMatrix * getMatrix();
+    //cacheMatrix =
+    cacheMatrix.multiply(getMatrix());
     return cacheMatrix;
   }
 
@@ -374,7 +375,10 @@ class DrawingShell extends core.DrawingShell {
   }
 
 
-
+  Vector3 ss1 = new Vector3(0.0, 0.0, 0.0);
+  Vector3 ss2 = new Vector3(0.0, 0.0, 0.0);
+  Vector3 ss3 = new Vector3(0.0, 0.0, 0.0);
+  Vector3 ss4 = new Vector3(0.0, 0.0, 0.0);
   void drawImageRect(core.Image image, core.Rect src, core.Rect dst,
       {core.CanvasTransform transform: core.CanvasTransform.NONE, core.Paint paint:null,
         List<Object> cache: null}) {
@@ -425,10 +429,12 @@ class DrawingShell extends core.DrawingShell {
     double ex = dst.x + dst.w;
     double ey = dst.y + dst.h;
 
-    Vector3 ss1 = m * new Vector3(sx, sy, 0.0);
-    Vector3 ss2 = m * new Vector3(sx, ey, 0.0);
-    Vector3 ss3 = m * new Vector3(ex, sy, 0.0);
-    Vector3 ss4 = m * new Vector3(ex, ey, 0.0);
+
+    ss1.setValues(sx, sy, 0.0); ss1 = m * ss1;
+    ss2.setValues(sx, ey, 0.0); ss2 = m * ss2;
+    ss3.setValues(ex, sy, 0.0); ss3 = m * ss3;
+    ss4.setValues(ex, ey, 0.0); ss4 = m * ss4;
+
     double s7x = ss1.x;
     double s7y = ss1.y;
     double s1x = ss2.x;

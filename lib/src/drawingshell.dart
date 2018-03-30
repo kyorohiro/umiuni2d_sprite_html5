@@ -286,10 +286,10 @@ class DrawingShell extends core.DrawingShell {
     double sy = rect.y;
     double ex = rect.x + rect.w;
     double ey = rect.y + rect.h;
-    Vector3 ss1 = m * new Vector3(sx, sy, 0.0);
-    Vector3 ss2 = m * new Vector3(sx, ey, 0.0);
-    Vector3 ss3 = m * new Vector3(ex, sy, 0.0);
-    Vector3 ss4 = m * new Vector3(ex, ey, 0.0);
+    ss1.setValues(sx, sy, 0.0); ss1 = m * ss1;
+    ss2.setValues(sx, ey, 0.0); ss2 = m * ss2;
+    ss3.setValues(ex, sy, 0.0); ss3 = m * ss3;
+    ss4.setValues(ex, ey, 0.0); ss4 = m * ss4;
 
     double colorR = currentColor.rf * paint.color.r / 0xff;
     double colorG = currentColor.gf * paint.color.g / 0xff;

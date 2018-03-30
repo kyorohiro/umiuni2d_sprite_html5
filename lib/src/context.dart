@@ -1,13 +1,13 @@
 part of umiuni2d_sprite_html5;
 
-class TinyWebglContext {
+class Context {
   RenderingContext GL;
   CanvasElement _canvasElement;
   CanvasElement get canvasElement => _canvasElement;
   double widht;
   double height;
   String selectors;
-  TinyWebglContext({double width: 600.0, double height: 400.0, this.selectors: null}) {
+  Context({double width: 600.0, double height: 400.0, this.selectors: null}) {
     this.widht = width;
     this.height = height;
     if (selectors == null) {

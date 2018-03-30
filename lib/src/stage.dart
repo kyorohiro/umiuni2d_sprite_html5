@@ -1,7 +1,7 @@
 part of umiuni2d_sprite_html5;
 
-class TinyWebglStage extends core.Stage {
-  TinyWebglContext glContext;
+class Stage extends core.Stage {
+  Context glContext;
   double get x => 0.0;
   double get y => 0.0;
   double get w => glContext.widht;
@@ -26,10 +26,10 @@ class TinyWebglStage extends core.Stage {
   num prevTime = 0;
 
   core.StageBase stageBase;
-  TinyWebglStage(this._context, core.DisplayObject root,core.DisplayObject background, core.DisplayObject front,
+  Stage(this._context, core.DisplayObject root,core.DisplayObject background, core.DisplayObject front,
       {double width: 400.0, double height: 300.0, String selectors: null, this.tickInterval: 15, this.paintInterval: 40}) {
     print("#TinyWebglStage");
-    glContext = new TinyWebglContext(width: width, height: height, selectors: selectors);
+    glContext = new Context(width: width, height: height, selectors: selectors);
     stageBase = new core.StageBase(this, root, background, front);
     this.startable = true;
     mouseTest();
@@ -111,7 +111,7 @@ class TinyWebglStage extends core.Stage {
         if (animeIsStart == false || sum_a > paintInterval) {
           //new Future(() {
             if(c == null) {
-              c = new TinyWebglCanvas(this.w, this.h, glContext);
+              c = new Canvas(this.w, this.h, glContext);
             }
             c.clear();
             kickPaint(this, c);

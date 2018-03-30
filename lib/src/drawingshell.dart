@@ -88,7 +88,7 @@ class DrawingShell extends core.DrawingShell {
       }
       {
         if(this.flImg == null) {
-          (canvas as TinyWebglCanvas).drawVertexWithColorRaw(
+          (canvas as Canvas).drawVertexWithColorRaw(
               this.flVert.value,
               this.flVert.length,
               this.flInde.value);
@@ -100,7 +100,7 @@ class DrawingShell extends core.DrawingShell {
             s = canvas.createImageShader(this.flImg);
             canvas.ims[this.flImg] = s;
           }
-          (canvas as TinyWebglCanvas).drawVertexWithImageRaw(
+          (canvas as Canvas).drawVertexWithImageRaw(
               this.flVert.value,
               this.flVert.length,
               this.flTex.value,

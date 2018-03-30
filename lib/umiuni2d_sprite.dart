@@ -8,6 +8,7 @@ import 'package:umiuni2d_sprite/umiuni2d_sprite.dart' as core;
 import 'package:vector_math/vector_math_64.dart';
 import 'dart:html';
 import 'dart:web_gl';
+import 'dart:web_gl' as gl;
 import 'dart:typed_data';
 import 'dart:convert' as conv;
 import 'dart:math' as math;
@@ -77,13 +78,13 @@ class GameWidget extends core.GameWidget {
     if(root == null) {
       root = new core.DisplayObject();
     }
-    return new TinyWebglStage(this, root, background, front, width:width.toDouble(), height:height.toDouble(),
+    return new Stage(this, root, background, front, width:width.toDouble(), height:height.toDouble(),
         selectors:selectors, tickInterval:tickInterval, paintInterval:paintInterval);
   }
 
   Future<core.Image> loadImage(String path) async {
     ImageElement elm = await TinyWebglLoader.loadImage("${assetsPath}${path}");
-    return new TinyWebglImage(elm);
+    return new Image(elm);
   }
 
   Future<Uint8List> loadBytes(String path) async {

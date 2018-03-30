@@ -3,7 +3,7 @@ part of umiuni2d_sprite_html5;
 
 class ImageShader extends core.ImageShader {
 
-  TinyWebglImage baseImage;
+  Image baseImage;
   ImageShader(core.Image rawImage) {
     this.baseImage = rawImage;
   }
@@ -53,12 +53,12 @@ class ImageShader extends core.ImageShader {
   }
 }
 
-class TinyWebglImage extends core.Image {
+class Image extends core.Image {
   int get w => elm.width;
   int get h => elm.height;
   html.ImageElement elm;//ImageElement elm;
 
-  TinyWebglImage(this.elm) {
+  Image(this.elm) {
   }
 
   int get hashCode => this.elm.hashCode;

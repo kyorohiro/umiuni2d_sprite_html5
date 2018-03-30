@@ -1,18 +1,18 @@
 part of umiuni2d_sprite_html5;
 
-class TinyWebglCanvas extends core.Canvas {
+class Canvas extends core.Canvas {
 
   RenderingContext GL;
-  TinyWebglContext glContext;
+  Context glContext;
   double get contextWidht => glContext.widht;
   double get contextHeight => glContext.height;
   Program programShapeImage;
   Program programShapeColor;
   //-2.0 / glContext.height
   int stencilV = 1;
-  int maxVertexTextureImageUnits = 3;
+  int maxVertexTextureImageUnits = 8;
 
-  TinyWebglCanvas(double w, double h, TinyWebglContext c, {int numOfCircleElm:16}):super(w, h, false
+  Canvas(double w, double h, Context c, {int numOfCircleElm:16}):super(w, h, false
       , new DrawingShell(w, h)) {
     print("#TinyWebglCanvas ${c.GL}");
     GL = c.GL;
@@ -23,6 +23,10 @@ class TinyWebglCanvas extends core.Canvas {
 
   void init() {
     print("#INIT");
+    print(">gl> MAX_VERTEX_TEXTURE_IMAGE_UNITS : " + GL.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS).toString());
+    print(">gl> MAX_TEXTURE_IMAGE_UNITS : " + GL.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS).toString());
+    print(">gl> MAX_COMBINED_TEXTURE_IMAGE_UNITS : " + GL.getParameter(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS).toString());
+
     maxVertexTextureImageUnits = GL.getParameter(RenderingContext.MAX_VERTEX_TEXTURE_IMAGE_UNITS);
     print("#[A] MAX_VERTEX_TEXTURE_IMAGE_UNITS # ${GL.getParameter(RenderingContext.MAX_VERTEX_TEXTURE_IMAGE_UNITS)}");
     print("#[B] ALIASED_POINT_SIZE_RANGE       # ${GL.getParameter(RenderingContext.ALIASED_POINT_SIZE_RANGE)}");
@@ -178,13 +182,7 @@ class TinyWebglCanvas extends core.Canvas {
       texLocation = GL.getAttribLocation(program, "a_tex");
       Buffer texBuffer = TinyWebglProgram.createArrayBuffer(GL, texs);
       GL.bindBuffer(RenderingContext.ARRAY_BUFFER, texBuffer);
-/*
-      Buffer texBuffer = GL.createBuffer();
-      GL.bindBuffer(RenderingContext.ARRAY_BUFFER, texBuffer);
-      GL.bufferData(
-          RenderingContext.ARRAY_BUFFER, texs,
-          RenderingContext.STATIC_DRAW);
-*/
+
       GL.enableVertexAttribArray(texLocation);
       GL.vertexAttribPointer(
           texLocation, 2, RenderingContext.FLOAT, false, 0, 0);

@@ -117,8 +117,8 @@ class GameWidget extends core.GameWidget {
   }
 
 
-  Future<core.ImageShader> createImageShader(core.Image image) async {
-    return null;
-  }
+//  Future<core.ImageShader> createImageShader(core.Image image) async {
+//    return null;
+//  }
 }
 

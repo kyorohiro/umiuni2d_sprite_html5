@@ -16,6 +16,9 @@ class FL {
   }
   void clear() {
     index = 0;
+    for(int i=0;i<value.length;i++) {
+      value[i] = 0.0;
+    }
   }
   void addAll(List<double> vs) {
     for(double v in vs) {
@@ -38,6 +41,9 @@ class IL {
 
   void clear() {
     index = 0;
+    for(int i=0;i<value.length;i++) {
+      value[i] = 0;
+    }
   }
   void addAll(List<int> vs) {
     for(int v in vs) {

@@ -28,20 +28,44 @@ class TinyWebglProgram {
     return shader;
   }
 
+  static Map<Float32List, Buffer> ca = {};
   static Buffer createArrayBuffer(RenderingContext context, Float32List data) {
-    Buffer ret = context.createBuffer();
-    context.bindBuffer(RenderingContext.ARRAY_BUFFER, ret);
-    context.bufferData(RenderingContext.ARRAY_BUFFER, data, RenderingContext.STATIC_DRAW);
-    context.bindBuffer(RenderingContext.ARRAY_BUFFER, null);
-    return ret;
+    if(ca.containsKey(data)) {
+      Buffer ret = ca[data];
+      context.bindBuffer(RenderingContext.ARRAY_BUFFER, ret);
+      context.bufferData(
+          RenderingContext.ARRAY_BUFFER, data, RenderingContext.STATIC_DRAW);
+      context.bindBuffer(RenderingContext.ARRAY_BUFFER, null);
+      return ret;
+    } else {
+      Buffer ret = context.createBuffer();
+      context.bindBuffer(RenderingContext.ARRAY_BUFFER, ret);
+      context.bufferData(
+          RenderingContext.ARRAY_BUFFER, data, RenderingContext.STATIC_DRAW);
+      context.bindBuffer(RenderingContext.ARRAY_BUFFER, null);
+      ca[data] = ret;
+      return ret;
+    }
   }
 
+  static Map<Uint16List, Buffer> ce = {};
   static Buffer createElementArrayBuffer(RenderingContext context, Uint16List data) {
-    Buffer ret = context.createBuffer();
-    context.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, ret);
-    context.bufferData(RenderingContext.ELEMENT_ARRAY_BUFFER, data, RenderingContext.STATIC_DRAW);
-    context.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, null);
-    return ret;
+    if(ce.containsKey(data)) {
+      Buffer ret = ce[data];
+      context.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, ret);
+      context.bufferData(RenderingContext.ELEMENT_ARRAY_BUFFER, data,
+          RenderingContext.STATIC_DRAW);
+      context.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, null);
+      return ret;
+    } else {
+      Buffer ret = context.createBuffer();
+      context.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, ret);
+      context.bufferData(RenderingContext.ELEMENT_ARRAY_BUFFER, data,
+          RenderingContext.STATIC_DRAW);
+      context.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, null);
+      ce[data] = ret;
+      return ret;
+    }
   }
 
   static setUniformF(RenderingContext context, Program program, String name, double v) {

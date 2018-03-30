@@ -176,11 +176,15 @@ class TinyWebglCanvas extends core.Canvas {
     {
       // tex
       texLocation = GL.getAttribLocation(program, "a_tex");
+      Buffer texBuffer = TinyWebglProgram.createArrayBuffer(GL, texs);
+      GL.bindBuffer(RenderingContext.ARRAY_BUFFER, texBuffer);
+/*
       Buffer texBuffer = GL.createBuffer();
       GL.bindBuffer(RenderingContext.ARRAY_BUFFER, texBuffer);
       GL.bufferData(
-          RenderingContext.ARRAY_BUFFER, new Float32List.fromList(texs),
+          RenderingContext.ARRAY_BUFFER, texs,
           RenderingContext.STATIC_DRAW);
+*/
       GL.enableVertexAttribArray(texLocation);
       GL.vertexAttribPointer(
           texLocation, 2, RenderingContext.FLOAT, false, 0, 0);

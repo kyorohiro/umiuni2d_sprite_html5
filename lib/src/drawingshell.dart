@@ -3,16 +3,63 @@
 //
 part of umiuni2d_sprite_html5;
 
+const int FLLENGTH = 6*50;
+const int FORCE_FLUSH_LEBGTH = 6*40;
+const int vertLen = 6;
+
+class FL {
+  Float32List value;
+  int index = 0;
+  int get length => index;
+  FL(int length) {
+    value = new Float32List(length);
+  }
+  void clear() {
+    index = 0;
+  }
+  void addAll(List<double> vs) {
+    for(double v in vs) {
+      value[index++] = v;
+    }
+  }
+
+  void add(double v) {
+    value[index++] = v;
+  }
+}
+
+class IL {
+  Uint16List value;
+  int index = 0;
+  int get length => index;
+  IL(int length) {
+    value = new Uint16List(length);
+  }
+
+  void clear() {
+    index = 0;
+  }
+  void addAll(List<int> vs) {
+    for(int v in vs) {
+      value[index++] = v;
+    }
+  }
+
+  void add(int v) {
+    value[index++] = v;
+  }
+}
+
 class DrawingShell extends core.DrawingShell {
 
   DrawingShell(double contextWidht, double contextHeight, { bool useLengthHAtCCoordinates:false})
       :super(contextWidht, contextHeight, useLengthHAtCCoordinates:useLengthHAtCCoordinates) {
-    numOfCircleElm = 20;
+
   }
 
-  List<double> flVert = [];
-  List<int> flInde = [];
-  List<double> flTex = [];
+  FL flVert = new FL(FLLENGTH * 6);
+  IL flInde = new IL(FLLENGTH * 2);
+  FL flTex = new FL(FLLENGTH  * 2);
   core.Image flImg = null;
 
 
@@ -23,12 +70,22 @@ class DrawingShell extends core.DrawingShell {
     flImg = null;
   }
 
+  int c =0;
+  int n =0;
   void flush() {
     if (flVert.length != 0) {
+      c++;
+      n =this.flVert.length;
+      if(c>200) {
+        //print(">> ${n}");
+        c=0;
+      }
       {
         if(this.flImg == null) {
           (canvas as TinyWebglCanvas).drawVertexWithColorRaw(
-              new Float32List.fromList(this.flVert), new Uint16List.fromList(this.flInde));
+              this.flVert.value,
+              this.flVert.length,
+              this.flInde.value);
         } else {
           ImageShader s = null;
           if(canvas.ims.containsKey(this.flImg )) {
@@ -38,7 +95,11 @@ class DrawingShell extends core.DrawingShell {
             canvas.ims[this.flImg] = s;
           }
           (canvas as TinyWebglCanvas).drawVertexWithImageRaw(
-              new Float32List.fromList(this.flVert),  new Float32List.fromList(this.flTex), new Uint16List.fromList(this.flInde), s);
+              this.flVert.value,
+              this.flVert.length,
+              this.flTex.value,
+              this.flInde.value,
+              s);
         }
       }
     }
@@ -76,8 +137,8 @@ class DrawingShell extends core.DrawingShell {
   void set numOfCircleElm(v) {
     _numOfCircleElm = v;
     for (int i = 0; i < _numOfCircleElm+1; i++) {
-      _circleCache.add(math.cos(2 * math.PI * (i / _numOfCircleElm)));
-      _circleCache.add(math.sin(2 * math.PI * (i / _numOfCircleElm)));
+      _circleCache.add(math.cos(2 * math.pi * (i / _numOfCircleElm)));
+      _circleCache.add(math.sin(2 * math.pi * (i / _numOfCircleElm)));
     }
   }
 
@@ -112,31 +173,49 @@ class DrawingShell extends core.DrawingShell {
     for (int i = 0; i < _numOfCircleElm; i++) {
       //
       int bbb = flVert.length ~/ vertLen;
-
+      if(flVert.length > FORCE_FLUSH_LEBGTH) {
+        flush();
+      }
       //
       s.x = cx;
       s.y = cy;
       s = m * s;
-      flVert.addAll([s.x, s.y,colorR, colorG, colorB, colorA]);
+      flVert.add(s.x);
+      flVert.add(s.y);
+      flVert.add(colorR);
+      flVert.add(colorG);
+      flVert.add(colorB);
+      flVert.add(colorA);
 
       //
       //
       s.x = cx + _circleCache[i*2+0] * a;
       s.y = cy + _circleCache[i*2+1] * b;
       s = m * s;
-      flVert.addAll([s.x, s.y, colorR, colorG, colorB, colorA]);
+      flVert.add(s.x);
+      flVert.add(s.y);
+      flVert.add(colorR);
+      flVert.add(colorG);
+      flVert.add(colorB);
+      flVert.add(colorA);
 
       //
       //
       s.x = cx + _circleCache[i*2+2] * a;
       s.y = cy + _circleCache[i*2+3] * b;
       s = m * s;
-      flVert.addAll([s.x, s.y, colorR, colorG, colorB, colorA]);
-      flInde.addAll([bbb + 0, bbb + 1, bbb + 2]);
+      flVert.add(s.x);
+      flVert.add(s.y);
+      flVert.add(colorR);
+      flVert.add(colorG);
+      flVert.add(colorB);
+      flVert.add(colorA);
+      flInde.add(bbb + 0);flInde.add(bbb + 1);flInde.add(bbb + 2);
     }
   }
 
   void drawStrokeOval(core.Rect rect, core.Paint paint) {
+
     if (flImg != null || flVert.length > 100) {
       flush();
     }
@@ -175,6 +254,7 @@ class DrawingShell extends core.DrawingShell {
       s4 = m * s4;
       _innerDrawFillRect(s1, s2, s4, s3, colorR, colorG, colorB, colorA);
     }
+
   }
 
   void drawRect(core.Rect rect, core.Paint paint, {List<Object> cache: null}) {
@@ -274,17 +354,17 @@ class DrawingShell extends core.DrawingShell {
       Vector3 ss1, Vector3 ss2, Vector3 ss3, Vector3 ss4,
       double colorR, double colorG, double colorB, double colorA) {
     int b = flVert.length ~/ vertLen;
-    flVert.addAll([
-      ss1.x, ss1.y, // 7
-      colorR, colorG, colorB, colorA,
-      ss2.x, ss2.y, // 1
-      colorR, colorG, colorB, colorA,
-      ss3.x, ss3.y, // 9
-      colorR, colorG, colorB, colorA,
-      ss4.x, ss4.y, //3
-      colorR, colorG, colorB, colorA,
-    ]);
-    flInde.addAll([b + 0, b + 1, b + 2, b + 1, b + 3, b + 2]);
+
+    flVert.add(ss1.x); flVert.add(ss1.y);    // 7
+    flVert.add(colorR); flVert.add(colorG); flVert.add(colorB); flVert.add(colorA);
+    flVert.add(ss2.x); flVert.add(ss2.y); // 1
+    flVert.add(colorR); flVert.add(colorG); flVert.add(colorB); flVert.add(colorA);
+    flVert.add(ss3.x); flVert.add(ss3.y); // 9
+    flVert.add(colorR); flVert.add(colorG); flVert.add(colorB); flVert.add(colorA);
+    flVert.add(ss4.x); flVert.add(ss4.y); //3
+    flVert.add(colorR); flVert.add(colorG); flVert.add(colorB); flVert.add(colorA);
+
+    flInde.add(b + 0); flInde.add(b + 1); flInde.add(b + 2); flInde.add(b + 1); flInde.add(b + 3); flInde.add(b + 2);
   }
 
 
@@ -303,31 +383,31 @@ class DrawingShell extends core.DrawingShell {
     double ye = (src.y + src.h) / (!this.useLengthHAtCCoordinates?flImg.h:1.0);
     switch (transform) {
       case core.CanvasTransform.NONE:
-        flTex.addAll([xs, ys, xs, ye, xe, ys, xe, ye]);
+        flTex.add(xs);flTex.add(ys);flTex.add(xs);flTex.add(ye);flTex.add(xe);flTex.add(ys);flTex.add(xe);flTex.add(ye);
         break;
       case core.CanvasTransform.ROT90:
-        flTex.addAll([xs, ye, xe, ye, xs, ys, xe, ys]);
+        flTex.add(xs);flTex.add(ye);flTex.add(xe);flTex.add(ye);flTex.add(xs);flTex.add(ys);flTex.add(xe);flTex.add(ys);
         break;
       case core.CanvasTransform.ROT180:
-        flTex.addAll([xe, ye, xe, ys, xs, ye, xs, ys]);
+        flTex.add(xe);flTex.add(ye);flTex.add(xe);flTex.add(ys);flTex.add(xs);flTex.add(ye);flTex.add(xs);flTex.add(ys);
         break;
       case core.CanvasTransform.ROT270:
-        flTex.addAll([xe, ys, xs, ys, xe, ye, xs, ye]);
+        flTex.add(xe);flTex.add(ys);flTex.add(xs);flTex.add(ys);flTex.add(xe);flTex.add(ye);flTex.add(xs);flTex.add(ye);
         break;
       case core.CanvasTransform.MIRROR:
-        flTex.addAll([xe, ys, xe, ye, xs, ys, xs, ye]);
+        flTex.add(xe);flTex.add(ys);flTex.add(xe);flTex.add(ye);flTex.add(xs);flTex.add(ys);flTex.add(xs);flTex.add(ye);
         break;
       case core.CanvasTransform.MIRROR_ROT90:
-        flTex.addAll([xs, ys, xe, ys, xs, ye, xe, ye]);
+        flTex.add(xs);flTex.add(ys);flTex.add(xe);flTex.add(ys);flTex.add(xs);flTex.add(ye);flTex.add(xe);flTex.add(ye);
         break;
       case core.CanvasTransform.MIRROR_ROT180:
-        flTex.addAll([xs, ye, xs, ys, xe, ye, xe, ys]);
+        flTex.add(xs);flTex.add(ye);flTex.add(xs);flTex.add(ys);flTex.add(xe);flTex.add(ye);flTex.add(xe);flTex.add(ys);
         break;
       case core.CanvasTransform.MIRROR_ROT270:
-        flTex.addAll([xe, ye, xs, ye, xe, ys, xs, ys]);
+        flTex.add(xe);flTex.add(ye);flTex.add(xs);flTex.add(ye);flTex.add(xe);flTex.add(ys);flTex.add(xs);flTex.add(ys);
         break;
       default:
-        flTex.addAll([xs, ys, xs, ye, xe, ys, xe, ye]);
+        flTex.add(xs);flTex.add(ys);flTex.add(xs);flTex.add(ye);flTex.add(xe);flTex.add(ys);flTex.add(xe);flTex.add(ye);
     }
 
     //
@@ -343,6 +423,14 @@ class DrawingShell extends core.DrawingShell {
     Vector3 ss2 = m * new Vector3(sx, ey, 0.0);
     Vector3 ss3 = m * new Vector3(ex, sy, 0.0);
     Vector3 ss4 = m * new Vector3(ex, ey, 0.0);
+    double s7x = ss1.x;
+    double s7y = ss1.y;
+    double s1x = ss2.x;
+    double s1y = ss2.y;
+    double s9x = ss3.x;
+    double s9y = ss3.y;
+    double s3x = ss4.x;
+    double s3y = ss4.y;
 
 
     int b = flVert.length ~/ vertLen;
@@ -359,18 +447,23 @@ class DrawingShell extends core.DrawingShell {
       colorA *= paint.color.a / 0xff;
     }
 
-    flVert.addAll([
-      ss1.x, ss1.y, // 7
-      colorR, colorG, colorB, colorA, // color
-      ss2.x, ss2.y, // 1
-      colorR, colorG, colorB, colorA, // color
-      ss3.x, ss3.y, // 9
-      colorR, colorG, colorB, colorA, // color
-      ss4.x, ss4.y, //3
-      colorR, colorG, colorB, colorA, // color
-    ]);
+    // 7
+    flVert.add(s7x);flVert.add(s7y);
+    flVert.add(colorR);flVert.add(colorG);flVert.add(colorB);flVert.add(colorA);
 
-    flInde.addAll([b + 0, b + 1, b + 2, b + 1, b + 3, b + 2]);
+    // 1
+    flVert.add(s1x);flVert.add(s1y);
+    flVert.add(colorR); flVert.add(colorG); flVert.add(colorB); flVert.add(colorA);
+
+    // 9
+    flVert.add(s9x);flVert.add(s9y);
+    flVert.add(colorR); flVert.add(colorG); flVert.add(colorB); flVert.add(colorA); // color
+
+    //3
+    flVert.add(s3x);flVert.add(s3y);
+    flVert.add(colorR); flVert.add(colorG); flVert.add(colorB); flVert.add(colorA);
+
+    flInde.add(b + 0);flInde.add(b + 1);flInde.add(b + 2);flInde.add(b + 1);flInde.add(b + 3);flInde.add(b + 2);
   }
-  static int vertLen = 6;
+
 }

@@ -109,7 +109,7 @@ class TinyWebglStage extends core.Stage {
         prevTime = currentTime;
         //markPaintshot();
         if (animeIsStart == false || sum_a > paintInterval) {
-          new Future(() {
+          //new Future(() {
             if(c == null) {
               c = new TinyWebglCanvas(this.w, this.h, glContext);
             }
@@ -117,7 +117,7 @@ class TinyWebglStage extends core.Stage {
             kickPaint(this, c);
             c.flush();
             //(c as TinyWebglCanvasTS).flushraw();
-          });
+         // });
           sum_a = 0.0;
         }
         if (count > 60) {

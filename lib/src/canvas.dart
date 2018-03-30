@@ -163,10 +163,10 @@ class TinyWebglCanvas extends core.Canvas {
     Float32List  svertex = (verties as Vertices).svertex;
     Float32List  texs = (verties as Vertices).texs;
     Uint16List indices = (verties as Vertices).indices;
-    drawVertexWithImageRaw(svertex, texs, indices, imageShader);
+    drawVertexWithImageRaw(svertex, svertex.length, texs, indices, imageShader);
   }
 
-  void drawVertexWithImageRaw(Float32List  svertex, Float32List  texs, Uint16List indices, core.ImageShader imageShader) {
+  void drawVertexWithImageRaw(Float32List  svertex, int svertexLength, Float32List  texs, Uint16List indices, core.ImageShader imageShader) {
 
     Program program = programShapeImage;
     GL.useProgram(null);
@@ -233,14 +233,13 @@ class TinyWebglCanvas extends core.Canvas {
   void drawVertexWithColor(core.Vertices verties, {bool hasZ:false}) {
     Float32List svertex = (verties as Vertices).svertex;
     Uint16List indices = (verties as Vertices).indices;
-    drawVertexWithColorRaw(svertex, indices, hasZ:hasZ);
+    drawVertexWithColorRaw(svertex, svertex.length, indices, hasZ:hasZ);
   }
 
-  void drawVertexWithColorRaw(Float32List svertex, Uint16List indices, {bool hasZ:false}) {
+  void drawVertexWithColorRaw(Float32List svertex, int svertexLength, Uint16List indices, {bool hasZ:false}) {
 
     {
       Program program = programShapeColor;
-
       GL.useProgram(null);
       GL.useProgram(program);
       int texLocation = 0;

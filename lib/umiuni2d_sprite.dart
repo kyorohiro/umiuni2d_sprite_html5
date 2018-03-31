@@ -117,7 +117,19 @@ class GameWidget extends core.GameWidget {
     return window.devicePixelRatio;
   }
 
+  Map<String, Object> cached = {};
+  Future<Image> loadAndCacheImage(String path) async {
+    cached[path] = await loadImage(path);
+    return cached[path] as Image;
+  }
 
+  Image getCachedImage(String path) {
+    if(cached.containsKey(path)) {
+      return cached[path];
+    } else {
+      return null;
+    }
+  }
 //  Future<core.ImageShader> createImageShader(core.Image image) async {
 //    return null;
 //  }

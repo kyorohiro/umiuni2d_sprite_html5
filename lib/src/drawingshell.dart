@@ -94,12 +94,7 @@ class DrawingShell extends core.DrawingShell {
               this.flInde.value);
         } else {
           ImageShader s = null;
-          if(canvas.ims.containsKey(this.flImg )) {
-            s = canvas.ims[this.flImg ];
-          } else{
-            s = canvas.createImageShader(this.flImg);
-            canvas.ims[this.flImg] = s;
-          }
+          s = canvas.getImageShader(this.flImg);
           (canvas as Canvas).drawVertexWithImageRaw(
               this.flVert.value,
               this.flVert.length,
@@ -479,3 +474,5 @@ class DrawingShell extends core.DrawingShell {
   }
 
 }
+
+

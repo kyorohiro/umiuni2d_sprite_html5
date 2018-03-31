@@ -17,7 +17,6 @@ part 'src/stage.dart';
 part 'src/util.dart';
 part 'src/image.dart';
 part 'src/canvas.dart';
-part 'src/context.dart';
 part 'src/drawingshell.dart';
 
 part 'util/canvas_text.dart';

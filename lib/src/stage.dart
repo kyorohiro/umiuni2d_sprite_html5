@@ -34,6 +34,7 @@ class Stage extends core.Stage {
     this.startable = true;
     mouseTest();
     touchTtest();
+    keyTest();
   }
 
   void updateSize(double w, double h) {
@@ -255,7 +256,26 @@ class Stage extends core.Stage {
     });
   }
 
+  void keyTest() {
+//    glContext.canvasElement
+    document.onKeyUp.listen((KeyboardEvent e) {
+      List<core.KeyEventButton> btns = this.getKeyEventButtonList(""+e.key);
+      print("[u] ${e.ctrlKey} ${e.metaKey} ${e.altKey} ${e.shiftKey} ${e.key} ${e.code} ${e.location} ${btns.length}");
 
+      for(core.KeyEventButton btn in btns) {
+        btn.registerUp = true;
+      }
+    });
+//    glContext.canvasElement
+    document.onKeyDown.listen((KeyboardEvent e) {
+      List<core.KeyEventButton> btns = this.getKeyEventButtonList(""+e.key);
+      print("[d] ${e.ctrlKey} ${e.metaKey} ${e.altKey} ${e.shiftKey} ${e.key} ${e.code} ${e.location} ${btns.length}");
+
+      for(core.KeyEventButton btn in btns) {
+        btn.registerDown = true;
+      }
+    });
+  }
 
   //
   //
@@ -321,5 +341,13 @@ class Stage extends core.Stage {
   @override
   Vector3 getCurrentPositionOnDisplayObject(double globalX, double globalY) {
     return stageBase.getCurrentPositionOnDisplayObject(globalX, globalY);
+  }
+
+  core.KeyEventButton createKeyEventButton(String key) {
+    return stageBase.createKeyEventButton(key);
+  }
+
+  List<core.KeyEventButton> getKeyEventButtonList(String key) {
+    return stageBase.getKeyEventButtonList(key);
   }
 }

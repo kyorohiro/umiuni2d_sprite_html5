@@ -85,7 +85,6 @@ class GameWidget extends core.GameWidget {
     return await conv.UTF8.decode(buffer, allowMalformed: true);
   }
 
-
   Future<String> getLocale() async {
     return window.navigator.language;
   }

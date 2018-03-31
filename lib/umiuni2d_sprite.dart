@@ -15,7 +15,6 @@ import 'dart:math' as math;
 //
 part 'src/stage.dart';
 part 'src/util.dart';
-part 'src/loader.dart';
 part 'src/image.dart';
 part 'src/canvas.dart';
 part 'src/context.dart';

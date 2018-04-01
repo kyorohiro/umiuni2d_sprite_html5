@@ -1,7 +1,7 @@
 part of umiuni2d_sprite_html5;
 
-class TinyWebglStage extends core.Stage {
-  TinyWebglContext glContext;
+class Stage extends core.Stage {
+  Context glContext;
   double get x => 0.0;
   double get y => 0.0;
   double get w => glContext.widht;
@@ -19,23 +19,24 @@ class TinyWebglStage extends core.Stage {
   int animeId = 0;
   int paintInterval;
   int tickInterval;
-  GameWidget _builder;
-  GameWidget get builder => _builder;
+  GameWidget _context;
+  GameWidget get context => _context;
 
   int countKickMv = 0;
   num prevTime = 0;
 
   core.StageBase stageBase;
-  TinyWebglStage(this._builder, core.DisplayObject root,core.DisplayObject background, core.DisplayObject front,
+  Stage(this._context, core.DisplayObject root,core.DisplayObject background, core.DisplayObject front,
       {double width: 400.0, double height: 300.0, String selectors: null, this.tickInterval: 15, this.paintInterval: 40}) {
     print("#TinyWebglStage");
-    glContext = new TinyWebglContext(width: width, height: height, selectors: selectors);
+    glContext = new Context(width: width, height: height, selectors: selectors);
     stageBase = new core.StageBase(this, root, background, front);
+    this.startable = true;
     mouseTest();
     touchTtest();
+    keyTest();
   }
 
-  // todo
   void updateSize(double w, double h) {
     glContext.widht = w;
     glContext.height = h;
@@ -66,7 +67,7 @@ class TinyWebglStage extends core.Stage {
       animeIsStart = true;
     }
     if(_animeIsOn == false) {
-      print("A sanimeIsStart ok");
+      //print("A sanimeIsStart ok");
       _anime();
     }
   }
@@ -107,18 +108,17 @@ class TinyWebglStage extends core.Stage {
         sum_a += interval;
         count++;
         prevTime = currentTime;
-        // TODO
         //markPaintshot();
         if (animeIsStart == false || sum_a > paintInterval) {
-          new Future(() {
+          //new Future(() {
             if(c == null) {
-              c = new TinyWebglCanvas(this.w, this.h, glContext);
+              c = new Canvas(this.w, this.h, glContext);
             }
             c.clear();
             kickPaint(this, c);
             c.flush();
             //(c as TinyWebglCanvasTS).flushraw();
-          });
+         // });
           sum_a = 0.0;
         }
         if (count > 60) {
@@ -256,7 +256,28 @@ class TinyWebglStage extends core.Stage {
     });
   }
 
+  void keyTest() {
+//    glContext.canvasElement
+    document.onKeyUp.listen((KeyboardEvent e) {
+      List<core.KeyEventButton> btns = this.getKeyEventButtonList(""+e.key);
+      print("[u] ${e.ctrlKey} ${e.metaKey} ${e.altKey} ${e.shiftKey} ${e.key} ${e.code} ${e.location} ${btns.length}");
 
+      for(core.KeyEventButton btn in btns) {
+        btn.registerUp = true;
+        btn.isTouch = false;
+      }
+    });
+//    glContext.canvasElement
+    document.onKeyDown.listen((KeyboardEvent e) {
+      List<core.KeyEventButton> btns = this.getKeyEventButtonList(""+e.key);
+      print("[d] ${e.ctrlKey} ${e.metaKey} ${e.altKey} ${e.shiftKey} ${e.key} ${e.code} ${e.location} ${btns.length}");
+
+      for(core.KeyEventButton btn in btns) {
+        btn.registerDown = true;
+        btn.isTouch = true;
+      }
+    });
+  }
 
   //
   //
@@ -286,8 +307,8 @@ class TinyWebglStage extends core.Stage {
 
   @override
   void kick(int timeStamp) {
-    if(this._builder.onLoop != null) {
-      this._builder.onLoop(this._builder);
+    if(this._context.onLoop != null) {
+      this._context.onLoop(this._context);
     }
     stageBase.kick(timeStamp);
   }
@@ -315,31 +336,20 @@ class TinyWebglStage extends core.Stage {
     return stageBase.popMatrix();
   }
 
-  @override
   Matrix4 getMatrix() {
     return stageBase.getMatrix();
   }
 
   @override
-  double get xFromMat => stageBase.xFromMat;
-
-  @override
-  double get yFromMat => stageBase.yFromMat;
-
-  @override
-  double get zFromMat => stageBase.zFromMat;
-
-  @override
-  double get sxFromMat => stageBase.sxFromMat;
-
-  @override
-  double get syFromMat => stageBase.syFromMat;
-
-  @override
-  double get szFromMat => stageBase.szFromMat;
-
-  @override
   Vector3 getCurrentPositionOnDisplayObject(double globalX, double globalY) {
     return stageBase.getCurrentPositionOnDisplayObject(globalX, globalY);
+  }
+
+  core.KeyEventButton createKeyEventButton(String key) {
+    return stageBase.createKeyEventButton(key);
+  }
+
+  List<core.KeyEventButton> getKeyEventButtonList(String key) {
+    return stageBase.getKeyEventButtonList(key);
   }
 }

@@ -3,8 +3,8 @@
 //
 part of umiuni2d_sprite_html5;
 
-const int FLLENGTH = 6*50;
-const int FORCE_FLUSH_LEBGTH = 6*40;
+const int FLLENGTH = 6*50 * 2;
+const int FORCE_FLUSH_LEBGTH = 6*40 * 2;
 const int vertLen = 6;
 
 class FL {

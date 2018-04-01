@@ -2,6 +2,7 @@ part of umiuni2d_sprite_html5;
 
 class Canvas extends core.Canvas {
 
+  TinyWebglProgram glUtil;
   RenderingContext GL;
   Context glContext;
   double get contextWidht => glContext.widht;
@@ -15,6 +16,7 @@ class Canvas extends core.Canvas {
   Canvas(double w, double h, Context c, {int numOfCircleElm:16}):super(w, h, false
       , new DrawingShell(w, h)) {
     print("#TinyWebglCanvas ${c.GL}");
+    glUtil = new TinyWebglProgram();
     GL = c.GL;
     glContext = c;
     init();
@@ -26,6 +28,10 @@ class Canvas extends core.Canvas {
     print(">gl> MAX_VERTEX_TEXTURE_IMAGE_UNITS : " + GL.getParameter(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS).toString());
     print(">gl> MAX_TEXTURE_IMAGE_UNITS : " + GL.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS).toString());
     print(">gl> MAX_COMBINED_TEXTURE_IMAGE_UNITS : " + GL.getParameter(gl.MAX_COMBINED_TEXTURE_IMAGE_UNITS).toString());
+
+    print(">gl> ARRAY_BUFFER_BINDING : " + GL.getParameter(gl.ARRAY_BUFFER_BINDING).toString());
+    print(">gl> ELEMENT_ARRAY_BUFFER_BINDING : " + GL.getParameter(gl.ELEMENT_ARRAY_BUFFER_BINDING).toString());
+
 
     maxVertexTextureImageUnits = GL.getParameter(RenderingContext.MAX_VERTEX_TEXTURE_IMAGE_UNITS);
     print("#[A] MAX_VERTEX_TEXTURE_IMAGE_UNITS # ${GL.getParameter(RenderingContext.MAX_VERTEX_TEXTURE_IMAGE_UNITS)}");
@@ -85,8 +91,8 @@ class Canvas extends core.Canvas {
         "void main() {",
         "    gl_FragColor = vColor;",
         "}"].join("\n");
-      programShapeImage = TinyWebglProgram.compile(GL, vsImage, fsImage);
-      programShapeColor = TinyWebglProgram.compile(GL, vsColor, fsColor);
+      programShapeImage = glUtil.compile(GL, vsImage, fsImage);
+      programShapeColor = glUtil.compile(GL, vsColor, fsColor);
     }
   }
 
@@ -180,7 +186,7 @@ class Canvas extends core.Canvas {
     {
       // tex
       texLocation = GL.getAttribLocation(program, "a_tex");
-      Buffer texBuffer = TinyWebglProgram.createArrayBuffer(GL, texs);
+      Buffer texBuffer = glUtil.createArrayBuffer(GL, texs);
       GL.bindBuffer(RenderingContext.ARRAY_BUFFER, texBuffer);
 
       GL.enableVertexAttribArray(texLocation);
@@ -196,10 +202,10 @@ class Canvas extends core.Canvas {
 
     //
     // vertex
-    Buffer rectBuffer = TinyWebglProgram.createArrayBuffer(GL, svertex);
+    Buffer rectBuffer = glUtil.createArrayBuffer(GL, svertex);
     GL.bindBuffer(RenderingContext.ARRAY_BUFFER, rectBuffer);
 
-    Buffer rectIndexBuffer = TinyWebglProgram.createElementArrayBuffer(GL, indices);
+    Buffer rectIndexBuffer = glUtil.createElementArrayBuffer(GL, indices);
     GL.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, rectIndexBuffer);
 
     //
@@ -208,7 +214,7 @@ class Canvas extends core.Canvas {
     // draw
     int locationAttributeUseTex;
     {
-      TinyWebglProgram.setUniformMat4(GL, program, "u_mat", baseMat);
+      glUtil.setUniformMat4(GL, program, "u_mat", baseMat);
       int colorAttribLocation = GL.getAttribLocation(program, "color");
       int locationVertexPosition = GL.getAttribLocation(program, "vp");
 
@@ -250,17 +256,17 @@ class Canvas extends core.Canvas {
       //
       // vertex
       //
-      Buffer rectBuffer = TinyWebglProgram.createArrayBuffer(GL, svertex);
+      Buffer rectBuffer = glUtil.createArrayBuffer(GL, svertex);
       GL.bindBuffer(RenderingContext.ARRAY_BUFFER, rectBuffer);
 
-      Buffer rectIndexBuffer = TinyWebglProgram.createElementArrayBuffer(GL, indices);
+      Buffer rectIndexBuffer = glUtil.createElementArrayBuffer(GL, indices);
       GL.bindBuffer(RenderingContext.ELEMENT_ARRAY_BUFFER, rectIndexBuffer);
 
       //
       // draw
       //
       {
-        TinyWebglProgram.setUniformMat4(GL, program, "u_mat", baseMat);
+        glUtil.setUniformMat4(GL, program, "u_mat", baseMat);
         int colorAttribLocation = GL.getAttribLocation(program, "color");
         int locationVertexPosition = GL.getAttribLocation(program, "vp");
 

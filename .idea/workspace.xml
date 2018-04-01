@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="eec3b93c-7cd1-4c1c-a0b7-02abff0075ff" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/canvas.dart" afterPath="$PROJECT_DIR$/lib/src/canvas.dart" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/stage.dart" afterPath="$PROJECT_DIR$/lib/src/stage.dart" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/src/util.dart" afterPath="$PROJECT_DIR$/lib/src/util.dart" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pubspec.yaml" afterPath="$PROJECT_DIR$/pubspec.yaml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/umiuni2d_sprite_html5.iml" afterPath="$PROJECT_DIR$/umiuni2d_sprite_html5.iml" />
     </list>
@@ -21,27 +17,72 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="canvas.dart" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/src/canvas.dart">
+      <file leaf-file-name="stage.dart" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/lib/src/stage.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="348">
-              <caret line="291" column="0" lean-forward="false" selection-start-line="291" selection-start-column="0" selection-end-line="291" selection-end-column="0" />
+            <state relative-caret-position="180">
+              <caret line="12" column="32" lean-forward="false" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
               <folding>
-                <marker date="1522347556000" expanded="true" signature="74:1157" ph="{...}" />
-                <marker date="1522347556000" expanded="true" signature="602:1157" ph="{...}" />
-                <marker date="1522347556000" expanded="true" signature="9912:9916" ph="{...}" />
-                <marker date="1522347556000" expanded="true" signature="9912:9918" ph="{...}" />
+                <marker date="1522603644000" expanded="true" signature="3172:3176" ph="//..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pubspec.yaml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pubspec.yaml">
+      <file leaf-file-name="umiuni2d_sprite.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/umiuni2d_sprite.dart">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+            <state relative-caret-position="90">
+              <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+              <folding>
+                <element signature="e#33#60#0" expanded="true" />
+                <element signature="e#354#376#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="widget.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/src/widget.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1275">
+              <caret line="85" column="3" lean-forward="false" selection-start-line="85" selection-start-column="3" selection-end-line="85" selection-end-column="3" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="canvas_text.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/util/canvas_text.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="555">
+              <caret line="37" column="37" lean-forward="false" selection-start-line="37" selection-start-column="37" selection-end-line="37" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="drawingshell.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/src/drawingshell.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1590">
+              <caret line="108" column="18" lean-forward="false" selection-start-line="108" selection-start-column="18" selection-end-line="108" selection-end-column="18" />
+              <folding>
+                <element signature="e#0#14545#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="canvas.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/src/canvas.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4080">
+              <caret line="272" column="39" lean-forward="false" selection-start-line="272" selection-start-column="39" selection-end-line="272" selection-end-column="39" />
+              <folding>
+                <marker date="1522437667000" expanded="true" signature="5127:5295" ph="{...}" />
+                <marker date="1522437667000" expanded="true" signature="7865:9217" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -49,8 +90,38 @@
       <file leaf-file-name="image.dart" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/lib/util/image.dart">
           <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="631">
+              <caret line="81" column="33" lean-forward="false" selection-start-line="81" selection-start-column="33" selection-end-line="81" selection-end-column="33" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="util.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/src/util.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="30" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="stage_base.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../umiuni2d_sprite/lib/src/stage_base.dart">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1470">
+              <caret line="98" column="36" lean-forward="false" selection-start-line="98" selection-start-column="36" selection-end-line="98" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="image.dart" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/lib/src/image.dart">
+          <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
-              <caret line="81" column="33" lean-forward="true" selection-start-line="81" selection-start-column="33" selection-end-line="81" selection-end-column="33" />
+              <caret line="17" column="22" lean-forward="false" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -60,16 +131,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>int timeStamp</find>
-      <find>kick</find>
-      <find>onLoo</find>
-      <find>kick(</find>
-      <find>paint</find>
-      <find>blend</find>
-      <find>clear</find>
-      <find>canvas</find>
-      <find>Canvas</find>
-      <find>getMatrix</find>
       <find>ss1</find>
       <find>getParameter</find>
       <find>--a</find>
@@ -90,6 +151,16 @@
       <find>start</find>
       <find>sanimeIsStart</find>
       <find>drawVertex</find>
+      <find>clip</find>
+      <find>texs</find>
+      <find>maxVertexTextureImageUnits</find>
+      <find>createImageShader</find>
+      <find>createImageS</find>
+      <find>ims</find>
+      <find>mats</find>
+      <find>maxTextureImages</find>
+      <find>mouseTe</find>
+      <find>keyTest()</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -104,28 +175,31 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/lib/src/builder.dart" />
-        <option value="$PROJECT_DIR$/lib/src/context.dart" />
-        <option value="$PROJECT_DIR$/lib/src/loader.dart" />
         <option value="$PROJECT_DIR$/lib/util/canvas_text.dart" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/../umiuni2d_sprite/lib/src/canvas_roze.dart" />
-        <option value="$PROJECT_DIR$/lib/src/image.dart" />
-        <option value="$PROJECT_DIR$/lib/src/util.dart" />
         <option value="$PROJECT_DIR$/../umiuni2d_sprite/lib/src/stage.dart" />
-        <option value="$PROJECT_DIR$/lib/umiuni2d_sprite.dart" />
-        <option value="$PROJECT_DIR$/lib/src/stage.dart" />
-        <option value="$PROJECT_DIR$/lib/src/canvas.dart" />
         <option value="$PROJECT_DIR$/lib/util/image.dart" />
         <option value="$PROJECT_DIR$/pubspec.yaml" />
+        <option value="$PROJECT_DIR$/lib/src/image.dart" />
+        <option value="$PROJECT_DIR$/lib/src/drawingshell.dart" />
+        <option value="$PROJECT_DIR$/lib/src/canvas.dart" />
+        <option value="$PROJECT_DIR$/lib/src/loader.dart" />
+        <option value="$PROJECT_DIR$/lib/src/context.dart" />
+        <option value="$PROJECT_DIR$/lib/src/util.dart" />
+        <option value="$PROJECT_DIR$/lib/umiuni2d_sprite.dart" />
+        <option value="$PROJECT_DIR$/../umiuni2d_sprite/lib/src/stage_base.dart" />
+        <option value="$PROJECT_DIR$/lib/src/widget.dart" />
+        <option value="$PROJECT_DIR$/lib/src/stage.dart" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="535" />
-    <option name="y" value="45" />
-    <option name="width" value="1201" />
-    <option name="height" value="947" />
+    <option name="x" value="281" />
+    <option name="y" value="290" />
+    <option name="width" value="1302" />
+    <option name="height" value="798" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -143,8 +217,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
-      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -173,8 +245,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -293,23 +367,23 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="535" y="45" width="1201" height="947" extended-state="0" />
+    <frame x="281" y="290" width="1302" height="798" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22652583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Dart Analysis" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329806" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1257276" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23727351" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1936508" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -319,8 +393,8 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Dart Analysis" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329806" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22652583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
@@ -335,41 +409,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/lib/src/util.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/stage.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4215">
-          <caret line="281" column="0" lean-forward="false" selection-start-line="281" selection-start-column="0" selection-end-line="283" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pubspec.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="32" lean-forward="false" selection-start-line="7" selection-start-column="32" selection-end-line="7" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="20" lean-forward="false" selection-start-line="2" selection-start-column="20" selection-end-line="2" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/lib/umiuni2d_sprite.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -377,13 +416,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/context.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/context.dart" />
     <entry file="file://$PROJECT_DIR$/lib/util/canvas_text.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
@@ -468,13 +501,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/loader.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/loader.dart" />
     <entry file="file://$PROJECT_DIR$/lib/src/stage.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -531,13 +558,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/loader.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/loader.dart" />
     <entry file="file://$PROJECT_DIR$/lib/src/stage.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -584,27 +605,6 @@
     <entry file="file://$PROJECT_DIR$/lib/src/builder.dart" />
     <entry file="file:///usr/local/Cellar/dart/2.0.0-dev.23.0/libexec/lib/web_gl/dart2js/web_gl_dart2js.dart" />
     <entry file="file://$PROJECT_DIR$/../umiuni2d_sprite/lib/src/canvas_roze.dart" />
-    <entry file="file://$PROJECT_DIR$/lib/util/canvas_text.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-27">
-          <caret line="37" column="37" lean-forward="false" selection-start-line="37" selection-start-column="37" selection-end-line="37" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/util.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="614">
-          <caret line="41" column="12" lean-forward="false" selection-start-line="41" selection-start-column="12" selection-end-line="41" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../umiuni2d_sprite/lib/src/stage_base.dart">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-11">
-          <caret line="15" column="34" lean-forward="false" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../umiuni2d_sprite/lib/src/stage.dart">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="645">
@@ -612,67 +612,123 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/umiuni2d_sprite.dart">
+    <entry file="file://$PROJECT_DIR$/pubspec.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+        <state relative-caret-position="225">
+          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/context.dart">
+    <entry file="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/vector_math-2.0.5/lib/src/vector_math_64/vector3.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
+        <state relative-caret-position="-94">
+          <caret line="40" column="10" lean-forward="false" selection-start-line="40" selection-start-column="10" selection-end-line="40" selection-end-column="10" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/.pub-cache/hosted/pub.dartlang.org/vector_math-2.0.5/lib/src/vector_math_64/matrix4.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-134">
+          <caret line="342" column="19" lean-forward="false" selection-start-line="342" selection-start-column="19" selection-end-line="342" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../umiuni2d_sprite/lib/src/canvas.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2025">
+          <caret line="135" column="14" lean-forward="false" selection-start-line="135" selection-start-column="14" selection-end-line="135" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/drawingshell.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1590">
+          <caret line="108" column="18" lean-forward="false" selection-start-line="108" selection-start-column="18" selection-end-line="108" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#14545#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/loader.dart" />
+    <entry file="file://$PROJECT_DIR$/lib/src/context.dart" />
     <entry file="file://$PROJECT_DIR$/lib/src/image.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1065">
-          <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
+        <state relative-caret-position="255">
+          <caret line="17" column="22" lean-forward="false" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/loader.dart">
+    <entry file="file://$PROJECT_DIR$/lib/umiuni2d_sprite.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="30" lean-forward="false" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
+        <state relative-caret-position="90">
+          <caret line="22" column="0" lean-forward="false" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+          <folding>
+            <element signature="e#33#60#0" expanded="true" />
+            <element signature="e#354#376#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/lib/src/stage.dart">
+    <entry file="file://$PROJECT_DIR$/../umiuni2d_sprite/lib/src/stage_base.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="90" column="7" lean-forward="false" selection-start-line="90" selection-start-column="7" selection-end-line="90" selection-end-column="7" />
+        <state relative-caret-position="1470">
+          <caret line="98" column="36" lean-forward="false" selection-start-line="98" selection-start-column="36" selection-end-line="98" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/src/canvas.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="291" column="0" lean-forward="false" selection-start-line="291" selection-start-column="0" selection-end-line="291" selection-end-column="0" />
+        <state relative-caret-position="4080">
+          <caret line="272" column="39" lean-forward="false" selection-start-line="272" selection-start-column="39" selection-end-line="272" selection-end-column="39" />
           <folding>
-            <marker date="1522347556000" expanded="true" signature="74:1157" ph="{...}" />
-            <marker date="1522347556000" expanded="true" signature="602:1157" ph="{...}" />
-            <marker date="1522347556000" expanded="true" signature="9912:9916" ph="{...}" />
-            <marker date="1522347556000" expanded="true" signature="9912:9918" ph="{...}" />
+            <marker date="1522437667000" expanded="true" signature="5127:5295" ph="{...}" />
+            <marker date="1522437667000" expanded="true" signature="7865:9217" ph="{...}" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/widget.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1275">
+          <caret line="85" column="3" lean-forward="false" selection-start-line="85" selection-start-column="3" selection-end-line="85" selection-end-column="3" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/lib/util/image.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="81" column="33" lean-forward="true" selection-start-line="81" selection-start-column="33" selection-end-line="81" selection-end-column="33" />
+        <state relative-caret-position="631">
+          <caret line="81" column="33" lean-forward="false" selection-start-line="81" selection-start-column="33" selection-end-line="81" selection-end-column="33" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pubspec.yaml">
+    <entry file="file://$PROJECT_DIR$/lib/util/canvas_text.dart">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+        <state relative-caret-position="555">
+          <caret line="37" column="37" lean-forward="false" selection-start-line="37" selection-start-column="37" selection-end-line="37" selection-end-column="37" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/util.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/lib/src/stage.dart">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="32" lean-forward="false" selection-start-line="12" selection-start-column="32" selection-end-line="12" selection-end-column="32" />
+          <folding>
+            <marker date="1522603644000" expanded="true" signature="3172:3176" ph="//..." />
+          </folding>
         </state>
       </provider>
     </entry>

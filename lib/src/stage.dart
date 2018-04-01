@@ -264,6 +264,7 @@ class Stage extends core.Stage {
 
       for(core.KeyEventButton btn in btns) {
         btn.registerUp = true;
+        btn.isTouch = false;
       }
     });
 //    glContext.canvasElement
@@ -273,6 +274,7 @@ class Stage extends core.Stage {
 
       for(core.KeyEventButton btn in btns) {
         btn.registerDown = true;
+        btn.isTouch = true;
       }
     });
   }

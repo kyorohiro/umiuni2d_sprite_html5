@@ -7,7 +7,7 @@ version: 0.0.1
 environment:
   sdk: '>=2.0.0-dev.22.0 <2.0.0'
 dependencies:
-  vector_math: 2.0.5
+  vector_math: any
   umiuni2d_sprite:
     git:
       url: https://github.com/kyorohiro/umiuni2d_sprite.git
